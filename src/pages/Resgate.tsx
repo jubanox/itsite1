@@ -6,7 +6,7 @@ const Resgate = () => {
   const [toggleOn, setToggleOn] = useState(false);
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, hsl(340, 80%, 55%) 0%, hsl(340, 70%, 30%) 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
