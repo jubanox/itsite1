@@ -6,7 +6,7 @@ const Resgate = () => {
   const [toggleOn, setToggleOn] = useState(false);
 
   return (
-    <div className="min-h-screen bg-brand-dark max-w-md mx-auto relative">
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, hsl(340, 80%, 55%) 0%, hsl(340, 70%, 30%) 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
@@ -46,7 +46,7 @@ const Resgate = () => {
         </div>
 
         {/* 1º titular */}
-        <button className="w-full py-3 rounded-full border border-primary-foreground/50 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/10 transition-colors">
+        <button className="w-full py-3 rounded-full bg-primary-foreground/20 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/30 transition-colors backdrop-blur-sm">
           1º titular
         </button>
 
@@ -66,7 +66,7 @@ const Resgate = () => {
         </div>
 
         {/* CTA */}
-        <button className="w-full py-4 rounded-full bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity">
+        <button className="w-full py-4 rounded-full bg-primary-foreground/20 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/30 transition-opacity backdrop-blur-sm">
           continuar para resgate
         </button>
       </div>
