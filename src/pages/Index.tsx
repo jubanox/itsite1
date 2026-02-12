@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 
 const Index = () => {
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(true);
   const [toggleOn, setToggleOn] = useState(false);
 
@@ -83,7 +81,7 @@ const Index = () => {
       <AttentionModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onContinue={() => navigate("/resgate")}
+        onContinue={() => setModalOpen(false)}
       />
     </div>
   );
