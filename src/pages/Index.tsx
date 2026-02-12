@@ -15,24 +15,29 @@ const Index = () => {
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
   const [nomeCompleto, setNomeCompleto] = useState("");
+  const [cpfErro, setCpfErro] = useState("");
   const [consultando, setConsultando] = useState(false);
 
   useEffect(() => {
     const cleanCpf = cpf.replace(/\D/g, "");
     if (cleanCpf.length === 11) {
       setConsultando(true);
+      setCpfErro("");
       supabase.functions.invoke("consulta-cpf", {
         body: { cpf: cleanCpf },
       }).then(({ data, error }) => {
         setConsultando(false);
         if (!error && data?.nome) {
           setNomeCompleto(data.nome);
+          setCpfErro("");
         } else {
           setNomeCompleto("");
+          setCpfErro(data?.details?.message || data?.error || "CPF inválido");
         }
       });
     } else {
       setNomeCompleto("");
+      setCpfErro("");
     }
   }, [cpf]);
 
@@ -92,8 +97,8 @@ const Index = () => {
         </div>
 
         {/* Nome do titular */}
-        <div className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base text-center">
-          {consultando ? "Consultando..." : nomeCompleto ? nomeCompleto : "1º titular"}
+        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#D7004D]"}`}>
+          {consultando ? "Consultando..." : cpfErro ? cpfErro : nomeCompleto ? nomeCompleto : "1º titular"}
         </div>
 
         {/* Toggle */}
