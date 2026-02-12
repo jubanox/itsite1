@@ -59,7 +59,12 @@ const Resgate = () => {
           <input
             type="text"
             value={conta}
-            onChange={(e) => { setConta(e.target.value.replace(/\D/g, "").slice(0, 8)); setErrors(prev => ({ ...prev, conta: undefined })); }}
+            onChange={(e) => {
+              let v = e.target.value.replace(/\D/g, "").slice(0, 8);
+              if (v.length > 7) v = v.replace(/(\d{7})(\d{1})/, "$1-$2");
+              setConta(v);
+              setErrors(prev => ({ ...prev, conta: undefined }));
+            }}
             className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.conta ? "border-yellow-200" : "border-primary-foreground/30"}`}
             placeholder="0000000-0"
           />
