@@ -8,10 +8,10 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card border-t border-border">
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#8C002A] border-t border-white/10">
       <div className="flex justify-around items-center py-3">
         {items.map((item) => (
-          <button key={item.label} className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <button key={item.label} className="flex flex-col items-center gap-1 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
             <item.icon size={22} />
             <span className="text-[10px] font-medium">{item.label}</span>
           </button>
