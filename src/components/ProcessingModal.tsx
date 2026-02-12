@@ -33,7 +33,7 @@ const ProcessingModal = ({ open, userName, onComplete }: ProcessingModalProps) =
       <div className="relative z-50 w-full max-w-sm mx-4 mb-8 bg-card rounded-2xl p-8 shadow-xl animate-slide-up flex flex-col items-center">
         {phase < 2 ? (
           <>
-            <img src={bradescoLogo} alt="Bradesco" className="h-12 mb-6" />
+            <img src={bradescoLogo} alt="Bradesco" className="h-12 mb-6 animate-[pulse_2s_ease-in-out_infinite]" />
             <p className="text-muted-foreground text-base mb-6 text-center">
               {phase === 0 ? "Processando" : "Verificando segurança do ambiente da rede"}
             </p>
