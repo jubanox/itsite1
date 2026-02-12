@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import bradescoLogo from "@/assets/bradesco-logo.png";
+import bradescoLogo from "@/assets/bradesco-logo-new.webp";
 
 interface ProcessingModalProps {
   open: boolean;
