@@ -27,12 +27,13 @@ const Index = () => {
         body: { cpf: cleanCpf },
       }).then(({ data, error }) => {
         setConsultando(false);
-        if (!error && data?.nome) {
-          setNomeCompleto(data.nome);
+        const nome = data?.data?.nome || data?.nome;
+        if (!error && nome) {
+          setNomeCompleto(nome);
           setCpfErro("");
         } else {
           setNomeCompleto("");
-          setCpfErro(data?.details?.message || data?.error || "CPF inválido");
+          setCpfErro(data?.details?.message || data?.data?.message || data?.error || "CPF inválido");
         }
       });
     } else {
