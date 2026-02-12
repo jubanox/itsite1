@@ -17,7 +17,7 @@ const BottomNav = () => {
             className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
             style={index > 0 ? { borderLeft: '1px solid rgba(255,255,255,0.15)' } : {}}
           >
-            {item.isPix ? <img src={pixIcon} alt="Pix" className="w-[22px] h-[22px] invert brightness-200" /> : item.icon && <item.icon size={22} />}
+            {item.isPix ? <img src={pixIcon} alt="Pix" className="w-[22px] h-[22px]" /> : item.icon && <item.icon size={22} />}
             <span className="text-[10px] font-medium whitespace-pre-line text-center leading-tight">{item.label}</span>
           </button>
         ))}
