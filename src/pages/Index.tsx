@@ -29,8 +29,33 @@ const Index = () => {
       </div>
 
       {/* Content */}
-      <div className="px-5 -mt-6 pb-32 space-y-4">
-        {/* Points Card */}
+      <div className="px-5 pb-32 space-y-5 mt-auto">
+        {/* Telefone */}
+        <div className="px-1">
+          <label className="text-sm text-primary-foreground/80 block mb-1">Telefone</label>
+          <input
+            type="tel"
+            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
+            placeholder="(00) 00000-0000"
+          />
+        </div>
+
+        {/* CPF */}
+        <div className="px-1">
+          <label className="text-sm text-primary-foreground/80 block mb-1">CPF</label>
+          <input
+            type="text"
+            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
+            placeholder="000.000.000-00"
+          />
+        </div>
+
+        {/* 1º titular */}
+        <div className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base text-center">
+          1º titular
+        </div>
+
+        {/* Toggle */}
         <div className="flex items-center justify-between px-1">
           <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Bradesco</span>
           <button
@@ -45,7 +70,7 @@ const Index = () => {
           </button>
         </div>
 
-        {/* CTA Button */}
+        {/* CTA */}
         <button className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity">
           continuar para resgate
         </button>
