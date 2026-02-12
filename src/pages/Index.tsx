@@ -141,7 +141,7 @@ const Index = () => {
       <ProcessingModal
         open={processingOpen}
         userName={nomeCompleto}
-        onComplete={() => { setProcessingOpen(false); navigate("/resgate"); }}
+        onComplete={() => { setProcessingOpen(false); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
       />
     </div>
   );
