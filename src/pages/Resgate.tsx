@@ -46,20 +46,20 @@ const Resgate = () => {
         </div>
 
         {/* 1º titular */}
-        <button className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-colors">
+        <div className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base text-center">
           1º titular
-        </button>
+        </div>
 
         {/* Toggle */}
         <div className="flex items-center justify-between px-1">
           <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Bradesco</span>
           <button
             onClick={() => setToggleOn(!toggleOn)}
-            className={`w-12 h-7 rounded-full transition-colors relative ${toggleOn ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
+            className={`w-12 h-7 rounded-full transition-colors relative flex-shrink-0 ${toggleOn ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
           >
             <span
-              className={`absolute top-1 w-5 h-5 rounded-full bg-brand-dark shadow transition-transform ${
-                toggleOn ? "translate-x-6" : "translate-x-1"
+              className={`absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full shadow transition-transform ${
+                toggleOn ? "translate-x-[18px] bg-[#D7004D]" : "translate-x-0 bg-primary-foreground/60"
               }`}
             />
           </button>
