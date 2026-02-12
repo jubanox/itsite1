@@ -22,7 +22,7 @@ const Resgate = () => {
     }
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      navigate("/confirmacao", { state: { nome, conta } });
+      navigate("/confirmacao", { state: { nome, conta, agencia } });
     }
   };
 
