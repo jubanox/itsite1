@@ -6,9 +6,9 @@ const Resgate = () => {
   const [toggleOn, setToggleOn] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background max-w-md mx-auto relative">
+    <div className="min-h-screen bg-brand-dark max-w-md mx-auto relative">
       {/* Header */}
-      <div className="bg-brand-dark px-5 pt-6 pb-16 rounded-b-3xl">
+      <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
           <Menu className="text-primary-foreground" size={24} />
           <Bell className="text-primary-foreground" size={24} />
@@ -24,41 +24,41 @@ const Resgate = () => {
       </div>
 
       {/* Content */}
-      <div className="px-5 -mt-6 pb-32 space-y-4">
+      <div className="px-5 pb-32 space-y-5 mt-auto">
         {/* Telefone */}
-        <div className="bg-card rounded-xl p-4 shadow-sm">
-          <label className="text-sm text-muted-foreground block mb-1">Telefone</label>
+        <div className="px-1">
+          <label className="text-sm text-primary-foreground/80 block mb-1">Telefone</label>
           <input
             type="tel"
-            className="w-full bg-transparent text-card-foreground border-b border-border pb-1 outline-none text-base"
+            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
             placeholder="(00) 00000-0000"
           />
         </div>
 
         {/* CPF */}
-        <div className="bg-card rounded-xl p-4 shadow-sm">
-          <label className="text-sm text-muted-foreground block mb-1">CPF</label>
+        <div className="px-1">
+          <label className="text-sm text-primary-foreground/80 block mb-1">CPF</label>
           <input
             type="text"
-            className="w-full bg-transparent text-card-foreground border-b border-border pb-1 outline-none text-base"
+            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
             placeholder="000.000.000-00"
           />
         </div>
 
         {/* 1º titular */}
-        <button className="w-full py-3 rounded-full border border-primary text-primary font-semibold text-base bg-card hover:bg-muted transition-colors">
+        <button className="w-full py-3 rounded-full border border-primary-foreground/50 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/10 transition-colors">
           1º titular
         </button>
 
         {/* Toggle */}
-        <div className="bg-card rounded-xl p-4 shadow-sm flex items-center justify-between">
-          <span className="text-sm font-medium text-card-foreground">Resgatar pontos Bradesco</span>
+        <div className="flex items-center justify-between px-1">
+          <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Bradesco</span>
           <button
             onClick={() => setToggleOn(!toggleOn)}
-            className={`w-12 h-7 rounded-full transition-colors relative ${toggleOn ? "bg-primary" : "bg-muted"}`}
+            className={`w-12 h-7 rounded-full transition-colors relative ${toggleOn ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
           >
             <span
-              className={`absolute top-1 w-5 h-5 rounded-full bg-card shadow transition-transform ${
+              className={`absolute top-1 w-5 h-5 rounded-full bg-brand-dark shadow transition-transform ${
                 toggleOn ? "translate-x-6" : "translate-x-1"
               }`}
             />
