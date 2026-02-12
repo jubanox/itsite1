@@ -56,8 +56,8 @@ const ProcessingModal = ({ open, userName, onComplete }: ProcessingModalProps) =
             </button>
           </>
         )}
-        <div className="mt-4 w-full text-center">
-          <span className="text-muted-foreground text-sm">{userName}</span>
+        <div className="mt-4 w-full flex justify-center">
+          <div className="w-8 h-8 border-2 border-muted rounded-full border-t-primary animate-spin" />
         </div>
       </div>
     </div>
