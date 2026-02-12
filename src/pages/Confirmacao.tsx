@@ -52,26 +52,27 @@ const Confirmacao = () => {
       </div>
 
       {/* Password Section */}
-      <div className="mx-5 mb-6">
+      <div className="mx-5 mb-6 relative">
         <p className="text-primary-foreground font-bold text-base">Confirme seu resgate.</p>
         <p className="text-primary-foreground/80 text-sm mb-3">Digite sua senha de acesso.</p>
         <p className="text-primary-foreground font-bold text-sm mb-2">Senha</p>
-        <div className="flex gap-3">
+        <label className="flex gap-3 cursor-text">
           {[0, 1, 2, 3].map((i) => (
             <div
               key={i}
               className={`w-3 h-3 rounded-full ${i < senha.length ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
             />
           ))}
-        </div>
-        <input
-          type="password"
-          maxLength={4}
-          value={senha}
-          onChange={(e) => setSenha(e.target.value.replace(/\D/g, "").slice(0, 4))}
-          className="w-full bg-transparent text-transparent outline-none absolute opacity-0"
-          autoFocus
-        />
+          <input
+            type="password"
+            inputMode="numeric"
+            maxLength={4}
+            value={senha}
+            onChange={(e) => setSenha(e.target.value.replace(/\D/g, "").slice(0, 4))}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-text"
+            autoFocus
+          />
+        </label>
       </div>
 
       {/* Spacer */}
