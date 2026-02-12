@@ -6,6 +6,21 @@ import BottomNav from "@/components/BottomNav";
 const Resgate = () => {
   const [agencia, setAgencia] = useState("");
   const [conta, setConta] = useState("");
+  const [errors, setErrors] = useState<{ agencia?: string; conta?: string }>({});
+
+  const handleResgatar = () => {
+    const newErrors: { agencia?: string; conta?: string } = {};
+    if (agencia.length !== 4) {
+      newErrors.agencia = "Agência deve ter 4 dígitos";
+    }
+    if (conta.length < 6) {
+      newErrors.conta = "Conta deve ter no mínimo 6 dígitos";
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      // válido - próximo passo
+    }
+  };
 
   return (
     <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
@@ -31,10 +46,11 @@ const Resgate = () => {
           <input
             type="text"
             value={agencia}
-            onChange={(e) => setAgencia(e.target.value.replace(/\D/g, "").slice(0, 4))}
-            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
+            onChange={(e) => { setAgencia(e.target.value.replace(/\D/g, "").slice(0, 4)); setErrors(prev => ({ ...prev, agencia: undefined })); }}
+            className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.agencia ? "border-yellow-200" : "border-primary-foreground/30"}`}
             placeholder="0000"
           />
+          {errors.agencia && <span className="text-yellow-200 text-xs mt-1 block">{errors.agencia}</span>}
         </div>
 
         {/* Conta */}
@@ -43,10 +59,11 @@ const Resgate = () => {
           <input
             type="text"
             value={conta}
-            onChange={(e) => setConta(e.target.value.replace(/\D/g, "").slice(0, 8))}
-            className="w-full bg-transparent text-primary-foreground border-b border-primary-foreground/30 pb-2 outline-none text-base placeholder:text-primary-foreground/40"
+            onChange={(e) => { setConta(e.target.value.replace(/\D/g, "").slice(0, 8)); setErrors(prev => ({ ...prev, conta: undefined })); }}
+            className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.conta ? "border-yellow-200" : "border-primary-foreground/30"}`}
             placeholder="0000000-0"
           />
+          {errors.conta && <span className="text-yellow-200 text-xs mt-1 block">{errors.conta}</span>}
         </div>
 
         {/* Helper text */}
@@ -55,7 +72,10 @@ const Resgate = () => {
         </p>
 
         {/* CTA */}
-        <button className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity">
+        <button
+          onClick={handleResgatar}
+          className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity"
+        >
           resgatar pontos
         </button>
       </div>
