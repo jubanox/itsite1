@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
 import ProcessingModal from "@/components/ProcessingModal";
-import bradescoLogo from "@/assets/bradesco-logo-new.webp";
+import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 
 const Index = () => {
