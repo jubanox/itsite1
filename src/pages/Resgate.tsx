@@ -46,7 +46,7 @@ const Resgate = () => {
         </div>
 
         {/* 1º titular */}
-        <button className="w-full py-3 rounded-full bg-primary-foreground/20 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/30 transition-colors backdrop-blur-sm">
+        <button className="w-full py-3 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-colors">
           1º titular
         </button>
 
@@ -66,7 +66,7 @@ const Resgate = () => {
         </div>
 
         {/* CTA */}
-        <button className="w-full py-4 rounded-full bg-primary-foreground/20 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/30 transition-opacity backdrop-blur-sm">
+        <button className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity">
           continuar para resgate
         </button>
       </div>
