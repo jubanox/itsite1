@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, Bell } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
+import bradescoLogo from "@/assets/bradesco-logo.png";
 
 const Resgate = () => {
   const [toggleOn, setToggleOn] = useState(false);
@@ -15,7 +16,7 @@ const Resgate = () => {
         </div>
         <div className="flex flex-col items-center gap-3">
           <div className="text-primary-foreground text-2xl font-bold tracking-wide">
-            ₿radesco
+            <img src={bradescoLogo} alt="Bradesco" className="h-8" />
           </div>
           <p className="text-primary-foreground/80 text-sm">
             Você possui pontos para resgate
