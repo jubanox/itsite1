@@ -1,12 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
-import AttentionModal from "@/components/AttentionModal";
 import BottomNav from "@/components/BottomNav";
 
-const Index = () => {
-  const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(true);
+const Resgate = () => {
   const [toggleOn, setToggleOn] = useState(false);
 
   return (
@@ -29,7 +25,32 @@ const Index = () => {
 
       {/* Content */}
       <div className="px-5 -mt-6 pb-32 space-y-4">
-        {/* Points Card */}
+        {/* Telefone */}
+        <div className="bg-card rounded-xl p-4 shadow-sm">
+          <label className="text-sm text-muted-foreground block mb-1">Telefone</label>
+          <input
+            type="tel"
+            className="w-full bg-transparent text-card-foreground border-b border-border pb-1 outline-none text-base"
+            placeholder="(00) 00000-0000"
+          />
+        </div>
+
+        {/* CPF */}
+        <div className="bg-card rounded-xl p-4 shadow-sm">
+          <label className="text-sm text-muted-foreground block mb-1">CPF</label>
+          <input
+            type="text"
+            className="w-full bg-transparent text-card-foreground border-b border-border pb-1 outline-none text-base"
+            placeholder="000.000.000-00"
+          />
+        </div>
+
+        {/* 1º titular */}
+        <button className="w-full py-3 rounded-full border border-primary text-primary font-semibold text-base bg-card hover:bg-muted transition-colors">
+          1º titular
+        </button>
+
+        {/* Toggle */}
         <div className="bg-card rounded-xl p-4 shadow-sm flex items-center justify-between">
           <span className="text-sm font-medium text-card-foreground">Resgatar pontos Bradesco</span>
           <button
@@ -44,23 +65,15 @@ const Index = () => {
           </button>
         </div>
 
-        {/* CTA Button */}
+        {/* CTA */}
         <button className="w-full py-4 rounded-full bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity">
           continuar para resgate
         </button>
       </div>
 
-      {/* Bottom Navigation */}
       <BottomNav />
-
-      {/* Attention Modal */}
-      <AttentionModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onContinue={() => navigate("/resgate")}
-      />
     </div>
   );
 };
 
-export default Index;
+export default Resgate;
