@@ -11,9 +11,9 @@ const Index = () => {
   const [toggleOn, setToggleOn] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background max-w-md mx-auto relative">
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
       {/* Header */}
-      <div className="bg-brand-dark px-5 pt-6 pb-16 rounded-b-3xl">
+      <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
           <Menu className="text-primary-foreground" size={24} />
           <Bell className="text-primary-foreground" size={24} />
@@ -31,22 +31,22 @@ const Index = () => {
       {/* Content */}
       <div className="px-5 -mt-6 pb-32 space-y-4">
         {/* Points Card */}
-        <div className="bg-card rounded-xl p-4 shadow-sm flex items-center justify-between">
-          <span className="text-sm font-medium text-card-foreground">Resgatar pontos Bradesco</span>
+        <div className="flex items-center justify-between px-1">
+          <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Bradesco</span>
           <button
             onClick={() => setToggleOn(!toggleOn)}
-            className={`w-12 h-7 rounded-full transition-colors relative ${toggleOn ? "bg-primary" : "bg-muted"}`}
+            className={`w-12 h-7 rounded-full transition-colors relative flex-shrink-0 ${toggleOn ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
           >
             <span
-              className={`absolute top-1 w-5 h-5 rounded-full bg-card shadow transition-transform ${
-                toggleOn ? "translate-x-6" : "translate-x-1"
+              className={`absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full shadow transition-transform ${
+                toggleOn ? "translate-x-[18px] bg-[#D7004D]" : "translate-x-0 bg-primary-foreground/60"
               }`}
             />
           </button>
         </div>
 
         {/* CTA Button */}
-        <button className="w-full py-4 rounded-full bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity">
+        <button className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity">
           continuar para resgate
         </button>
       </div>
