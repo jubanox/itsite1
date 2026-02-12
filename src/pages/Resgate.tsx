@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 
 const Resgate = () => {
+  const navigate = useNavigate();
   const [agencia, setAgencia] = useState("");
   const [conta, setConta] = useState("");
   const [errors, setErrors] = useState<{ agencia?: string; conta?: string }>({});
@@ -18,7 +20,7 @@ const Resgate = () => {
     }
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      // válido - próximo passo
+      navigate("/confirmacao");
     }
   };
 
