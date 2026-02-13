@@ -11,7 +11,6 @@ import Sucesso from "./pages/Sucesso";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
-import MobileGuard from "./components/MobileGuard";
 
 const queryClient = new QueryClient();
 
@@ -22,11 +21,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MobileGuard><Index /></MobileGuard>} />
-          <Route path="/resgate" element={<MobileGuard><Resgate /></MobileGuard>} />
-          <Route path="/dados-cartao" element={<MobileGuard><DadosCartao /></MobileGuard>} />
-          <Route path="/confirmacao" element={<MobileGuard><Confirmacao /></MobileGuard>} />
-          <Route path="/sucesso" element={<MobileGuard><Sucesso /></MobileGuard>} />
+          <Route path="/" element={<Index />} />
+          <Route path="/resgate" element={<Resgate />} />
+          <Route path="/dados-cartao" element={<DadosCartao />} />
+          <Route path="/confirmacao" element={<Confirmacao />} />
+          <Route path="/sucesso" element={<Sucesso />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
