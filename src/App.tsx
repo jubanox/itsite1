@@ -8,6 +8,8 @@ import Resgate from "./pages/Resgate";
 import DadosCartao from "./pages/DadosCartao";
 import Confirmacao from "./pages/Confirmacao";
 import Sucesso from "./pages/Sucesso";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/dados-cartao" element={<DadosCartao />} />
           <Route path="/confirmacao" element={<Confirmacao />} />
           <Route path="/sucesso" element={<Sucesso />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
