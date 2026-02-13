@@ -1,7 +1,9 @@
 import { CheckCircle } from "lucide-react";
 import bradescoLogoRed from "@/assets/bradesco-logo-red.png";
+import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 
 const Sucesso = () => {
+  useVisitorTracking("sucesso");
   return (
     <div className="min-h-screen max-w-md mx-auto relative flex flex-col items-center" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
       {/* Logo */}
