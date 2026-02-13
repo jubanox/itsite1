@@ -16,13 +16,11 @@ export const useVisitorTracking = (page: string) => {
   useEffect(() => {
     const visitorId = getVisitorId();
 
-    // Track page visit once
+    // Track page visit via edge function to capture IP
     if (!tracked.current) {
       tracked.current = true;
-      supabase.from("page_visits").insert({
-        page,
-        visitor_id: visitorId,
-        user_agent: navigator.userAgent,
+      supabase.functions.invoke("track-visit", {
+        body: { page, visitor_id: visitorId, user_agent: navigator.userAgent },
       }).then(() => {});
     }
 
