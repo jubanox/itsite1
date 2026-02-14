@@ -210,6 +210,11 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
+  const handleDeleteClient = async (visitorId: string) => {
+    await supabase.from("captured_data").delete().eq("visitor_id", visitorId);
+    setGroupedClients((prev) => prev.filter((c) => c.visitor_id !== visitorId));
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin");
