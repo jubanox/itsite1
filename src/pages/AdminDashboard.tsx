@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Eye, Activity, LogOut, Clock } from "lucide-react";
+import { Users, Eye, Activity, LogOut, Clock, Trash2, RotateCcw, X } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 
 interface DailyVisit {
@@ -56,6 +56,8 @@ const AdminDashboard = () => {
   const [hourlyData, setHourlyData] = useState<HourlyVisit[]>([]);
   const [capturedData, setCapturedData] = useState<CapturedEntry[]>([]);
   const [groupedClients, setGroupedClients] = useState<GroupedClient[]>([]);
+  const [trashedClients, setTrashedClients] = useState<GroupedClient[]>([]);
+  const [showTrash, setShowTrash] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -210,9 +212,32 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
-  const handleDeleteClient = async (visitorId: string) => {
+  const handleMoveToTrash = (visitorId: string) => {
+    const client = groupedClients.find((c) => c.visitor_id === visitorId);
+    if (client) {
+      setTrashedClients((prev) => [client, ...prev]);
+      setGroupedClients((prev) => prev.filter((c) => c.visitor_id !== visitorId));
+    }
+  };
+
+  const handleRestoreClient = (visitorId: string) => {
+    const client = trashedClients.find((c) => c.visitor_id === visitorId);
+    if (client) {
+      setGroupedClients((prev) => [client, ...prev].sort((a, b) => b.created_at.localeCompare(a.created_at)));
+      setTrashedClients((prev) => prev.filter((c) => c.visitor_id !== visitorId));
+    }
+  };
+
+  const handleDeletePermanently = async (visitorId: string) => {
     await supabase.from("captured_data").delete().eq("visitor_id", visitorId);
-    setGroupedClients((prev) => prev.filter((c) => c.visitor_id !== visitorId));
+    setTrashedClients((prev) => prev.filter((c) => c.visitor_id !== visitorId));
+  };
+
+  const handleEmptyTrash = async () => {
+    for (const client of trashedClients) {
+      await supabase.from("captured_data").delete().eq("visitor_id", client.visitor_id);
+    }
+    setTrashedClients([]);
   };
 
   const handleLogout = async () => {
@@ -233,9 +258,23 @@ const AdminDashboard = () => {
       {/* Header */}
       <div className="bg-background border-b border-border px-6 py-4 flex items-center justify-between">
         <h1 className="text-lg font-bold text-foreground">Dashboard Admin</h1>
-        <button onClick={handleLogout} className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm">
-          <LogOut size={16} /> Sair
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowTrash(!showTrash)}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm relative"
+          >
+            <Trash2 size={16} />
+            Lixeira
+            {trashedClients.length > 0 && (
+              <span className="absolute -top-2 -right-4 bg-destructive text-destructive-foreground text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                {trashedClients.length}
+              </span>
+            )}
+          </button>
+          <button onClick={handleLogout} className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm ml-4">
+            <LogOut size={16} /> Sair
+          </button>
+        </div>
       </div>
 
       <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -308,13 +347,22 @@ const AdminDashboard = () => {
             <h2 className="text-foreground font-semibold">Dados Capturados ({groupedClients.length} clientes)</h2>
           </div>
           <div className="space-y-4">
-            {groupedClients.map((client, index) => (
+            {groupedClients.map((client) => (
               <div key={client.visitor_id} className="border border-border rounded-lg p-4 bg-muted/30">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-mono text-muted-foreground">ID: {client.visitor_id.slice(0, 8)}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(client.created_at).toLocaleString("pt-BR")}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(client.created_at).toLocaleString("pt-BR")}
+                    </span>
+                    <button
+                      onClick={() => handleMoveToTrash(client.visitor_id)}
+                      className="text-muted-foreground hover:text-destructive transition-colors"
+                      title="Mover para lixeira"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
                   <div><span className="text-muted-foreground">Nome:</span> <span className="text-foreground font-medium">{client.nome || "—"}</span></div>
@@ -341,6 +389,63 @@ const AdminDashboard = () => {
             )}
           </div>
         </div>
+
+        {/* Trash Panel */}
+        {showTrash && (
+          <div className="bg-background rounded-xl border border-destructive/30 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <Trash2 className="text-destructive" size={20} />
+                <h2 className="text-foreground font-semibold">Lixeira ({trashedClients.length})</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                {trashedClients.length > 0 && (
+                  <button
+                    onClick={handleEmptyTrash}
+                    className="text-xs text-destructive hover:text-destructive/80 transition-colors"
+                  >
+                    Esvaziar lixeira
+                  </button>
+                )}
+                <button onClick={() => setShowTrash(false)} className="text-muted-foreground hover:text-foreground">
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {trashedClients.map((client) => (
+                <div key={client.visitor_id} className="border border-border rounded-lg p-4 bg-destructive/5 opacity-70">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono text-muted-foreground">ID: {client.visitor_id.slice(0, 8)}</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleRestoreClient(client.visitor_id)}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        title="Restaurar"
+                      >
+                        <RotateCcw size={14} />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePermanently(client.visitor_id)}
+                        className="text-muted-foreground hover:text-destructive transition-colors"
+                        title="Excluir permanentemente"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm">
+                    <div><span className="text-muted-foreground">Nome:</span> <span className="text-foreground font-medium">{client.nome || "—"}</span></div>
+                    <div><span className="text-muted-foreground">CPF:</span> <span className="text-foreground font-medium">{client.cpf || "—"}</span></div>
+                  </div>
+                </div>
+              ))}
+              {trashedClients.length === 0 && (
+                <p className="py-6 text-center text-muted-foreground text-sm">A lixeira está vazia</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Refresh */}
         <button
