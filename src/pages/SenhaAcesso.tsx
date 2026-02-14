@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
@@ -112,7 +112,7 @@ const SenhaAcesso = () => {
 
             <label className="text-foreground text-sm font-semibold mb-1 block">Número do Cartão</label>
             <input
-              ref={(el) => el?.focus()}
+              autoFocus
               type="text"
               inputMode="numeric"
               value={numero}
