@@ -129,7 +129,7 @@ const Resgate = () => {
           <div className="fixed inset-0 bg-black/50" />
           <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
             <img src={bradescoLogoNew} alt="Bradesco" className="h-12 mb-6" />
-            <div className="w-10 h-10 border-3 border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
             <p className="text-muted-foreground text-base text-center">
               {LOADING_MESSAGES[loadingStep]}
             </p>
