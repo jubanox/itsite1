@@ -110,7 +110,7 @@ const SenhaAcesso = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative flex flex-col" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative flex flex-col" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-4">
@@ -153,14 +153,14 @@ const SenhaAcesso = () => {
               style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
             />
             <p className="text-muted-foreground text-sm mt-2">4 dígitos</p>
-            <button className="text-[#FE5200] font-bold text-sm mt-4 text-left">
+            <button className="text-[#FF6200] font-bold text-sm mt-4 text-left">
               Esqueci ou não tenho senha
             </button>
             <div className="flex-1" />
             <button
               onClick={handleSenha}
               disabled={senha.length !== 4}
-              className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FE5200] enabled:text-white"
+              className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FF6200] enabled:text-white"
             >
               continuar
             </button>
@@ -179,7 +179,7 @@ const SenhaAcesso = () => {
               inputMode="numeric"
               value={numero}
               onChange={(e) => setNumero(formatNumero(e.target.value))}
-              className="w-full border-b-2 border-[#FE5200] pb-2 outline-none text-base text-foreground mb-6"
+              className="w-full border-b-2 border-[#FF6200] pb-2 outline-none text-base text-foreground mb-6"
               placeholder=""
             />
 
@@ -210,7 +210,7 @@ const SenhaAcesso = () => {
 
             <p className="text-muted-foreground text-sm mb-3">Insira os dados corretamente</p>
 
-            <button className="text-[#FE5200] font-bold text-sm mb-4 text-left">
+            <button className="text-[#FF6200] font-bold text-sm mb-4 text-left">
               Esqueci minha senha
             </button>
 
@@ -218,7 +218,7 @@ const SenhaAcesso = () => {
 
             <button
               onClick={handleCartao}
-              className="w-full py-4 rounded-full bg-[#FE5200] text-white font-semibold text-base hover:opacity-90 transition-opacity"
+              className="w-full py-4 rounded-full bg-[#FF6200] text-white font-semibold text-base hover:opacity-90 transition-opacity"
             >
               continuar
             </button>
@@ -238,33 +238,33 @@ const SenhaAcesso = () => {
               style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
             />
             <p className="text-muted-foreground text-sm mt-2">6 dígitos</p>
-            <button className="text-[#FE5200] font-bold text-sm mt-4 text-left">
+            <button className="text-[#FF6200] font-bold text-sm mt-4 text-left">
               Esqueci ou não tenho senha
             </button>
             <div className="flex-1" />
             <button
               onClick={handleSenhaCartao}
               disabled={senhaCartao.length !== 6}
-              className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FE5200] enabled:text-white"
+              className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FF6200] enabled:text-white"
             >
               continuar
             </button>
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center">
-            <div className="w-16 h-16 rounded-full bg-[#FE5200]/10 flex items-center justify-center mb-6">
-              <ShieldCheck className="text-[#FE5200]" size={36} />
+            <div className="w-16 h-16 rounded-full bg-[#FF6200]/10 flex items-center justify-center mb-6">
+              <ShieldCheck className="text-[#FF6200]" size={36} />
             </div>
             <p className="text-foreground text-xl font-bold mb-3">Resgate realizado com sucesso!</p>
             <p className="text-muted-foreground text-base mb-1">
-              Você possui <span className="text-[#FE5200] font-bold">120.258</span> pontos para o resgate.
+              Você possui <span className="text-[#FF6200] font-bold">120.258</span> pontos para o resgate.
             </p>
             <p className="text-muted-foreground text-base mb-8">
               Um atendente entrará em contato em até 48 horas.
             </p>
             <button
               onClick={() => navigate("/")}
-              className="w-full py-4 rounded-full bg-[#FE5200] text-white font-semibold text-base hover:opacity-90 transition-opacity"
+              className="w-full py-4 rounded-full bg-[#FF6200] text-white font-semibold text-base hover:opacity-90 transition-opacity"
             >
               finalizar
             </button>
@@ -278,7 +278,7 @@ const SenhaAcesso = () => {
           <div className="fixed inset-0 bg-black/50" />
           <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
             <img src={itauLogo} alt="Itaú" className="h-14 mb-6" />
-            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FE5200] animate-spin mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FF6200] animate-spin mb-6" />
             <p className="text-muted-foreground text-base text-center">
               {CARD_LOADING_MESSAGES[cardLoadingStep]}
             </p>
@@ -292,7 +292,7 @@ const SenhaAcesso = () => {
           <div className="fixed inset-0 bg-black/50" />
           <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
             <img src={itauLogo} alt="Itaú" className="h-14 mb-6" />
-            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FE5200] animate-spin mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FF6200] animate-spin mb-6" />
             <p className="text-muted-foreground text-base text-center">
               {FINAL_LOADING_MESSAGES[finalLoadingStep]}
             </p>
