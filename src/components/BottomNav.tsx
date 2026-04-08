@@ -9,7 +9,7 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-4 pt-2" style={{ background: 'linear-gradient(135deg, #E55800 0%, #993200 100%)' }}>
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-4 pt-2" style={{ background: 'linear-gradient(135deg, #CC5000 0%, #993200 100%)' }}>
       <div className="grid grid-cols-3 gap-3">
         {items.map((item) => (
           <button

@@ -48,7 +48,7 @@ const DadosCartao = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #E55800 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-8">
         <div className="flex items-center justify-between mb-8">

@@ -5,7 +5,7 @@ import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 const Sucesso = () => {
   useVisitorTracking("sucesso");
   return (
-    <div className="min-h-screen max-w-md mx-auto relative flex flex-col items-center" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #E55800 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative flex flex-col items-center" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       <div className="pt-16 pb-10 flex flex-col items-center">
         <img src={itauLogo} alt="Itaú" className="h-12" />
       </div>
