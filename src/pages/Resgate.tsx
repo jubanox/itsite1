@@ -57,7 +57,7 @@ const Resgate = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-8">
         <div className="flex items-center justify-between mb-8">
@@ -113,7 +113,7 @@ const Resgate = () => {
         {/* CTA */}
         <button
           onClick={handleResgatar}
-          className="w-full py-4 rounded-full bg-white text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity"
+          className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity"
         >
           resgatar pontos
         </button>
@@ -128,7 +128,7 @@ const Resgate = () => {
           <div className="fixed inset-0 bg-black/50" />
           <div className="relative z-50 w-full max-w-sm mx-4 bg-card rounded-2xl p-8 shadow-xl flex flex-col items-center">
             <img src={itauLogo} alt="Itaú" className="h-14 mb-6" />
-            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FE5200] animate-spin mb-6" />
+            <div className="w-10 h-10 border-[3px] border-muted rounded-full border-t-[#FF6200] animate-spin mb-6" />
             <p className="text-muted-foreground text-base text-center">
               {LOADING_MESSAGES[loadingStep]}
             </p>

@@ -9,7 +9,7 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto" style={{ background: 'linear-gradient(135deg, #CC4200 0%, #993200 100%)' }}>
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto" style={{ background: 'linear-gradient(135deg, #CC5000 0%, #993200 100%)' }}>
       <div className="flex items-stretch">
         {items.map((item, index) => (
           <button

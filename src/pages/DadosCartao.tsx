@@ -48,7 +48,7 @@ const DadosCartao = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-8">
         <div className="flex items-center justify-between mb-8">
@@ -111,7 +111,7 @@ const DadosCartao = () => {
 
         <button
           onClick={handleContinuar}
-          className="w-full py-4 rounded-full bg-white text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity"
+          className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity"
         >
           continuar
         </button>
