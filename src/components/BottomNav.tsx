@@ -15,7 +15,7 @@ const BottomNav = () => {
           <button
             key={item.label}
             className="flex flex-col items-start justify-between rounded-xl p-4 aspect-[4/3] transition-colors"
-            style={{ backgroundColor: 'rgba(0,0,0,0.15)' }}
+            style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}
           >
             <span className="text-primary-foreground/90">{item.icon}</span>
             <span className="text-sm font-medium text-primary-foreground text-left">{item.label}</span>
