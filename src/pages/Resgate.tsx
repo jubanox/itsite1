@@ -66,48 +66,51 @@ const Resgate = () => {
         </div>
         <div className="flex flex-col items-start gap-3">
           <img src={itauLogo} alt="Itaú" className="h-12" />
-          <h1 className="text-primary-foreground text-xl font-semibold leading-tight">
-            Continue para resgatar seus pontos
+          <h1 className="text-primary-foreground text-2xl font-bold leading-tight">
+            Olá, {nome || "cliente"}
           </h1>
+          <p className="text-primary-foreground/80 text-base">
+            Você possui <strong className="text-primary-foreground">82.350</strong> pontos para o resgate.
+          </p>
         </div>
       </div>
 
       {/* Content */}
       <div className="px-5 pb-32 space-y-6">
-        {/* Agência */}
-        <div className="px-1">
-          <label className="text-sm text-primary-foreground/80 block mb-1">Agência sem dígito</label>
-          <input
-            type="text"
-            value={agencia}
-            onChange={(e) => { setAgencia(e.target.value.replace(/\D/g, "").slice(0, 4)); setErrors(prev => ({ ...prev, agencia: undefined })); }}
-            className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.agencia ? "border-yellow-200" : "border-primary-foreground/30"}`}
-            placeholder="0000"
-          />
-          {errors.agencia && <span className="text-yellow-200 text-xs mt-1 block">{errors.agencia}</span>}
-        </div>
-
-        {/* Conta */}
-        <div className="px-1">
-          <label className="text-sm text-primary-foreground/80 block mb-1">Conta com dígito</label>
-          <input
-            type="text"
-            value={conta}
-            onChange={(e) => {
-              let v = e.target.value.replace(/\D/g, "").slice(0, 8);
-              if (v.length > 7) v = v.replace(/(\d{7})(\d{1})/, "$1-$2");
-              setConta(v);
-              setErrors(prev => ({ ...prev, conta: undefined }));
-            }}
-            className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.conta ? "border-yellow-200" : "border-primary-foreground/30"}`}
-            placeholder="0000000-0"
-          />
-          {errors.conta && <span className="text-yellow-200 text-xs mt-1 block">{errors.conta}</span>}
+        {/* Agência e Conta lado a lado */}
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <label className="text-sm text-primary-foreground/80 block mb-1">Agência sem dígito</label>
+            <input
+              type="text"
+              value={agencia}
+              onChange={(e) => { setAgencia(e.target.value.replace(/\D/g, "").slice(0, 4)); setErrors(prev => ({ ...prev, agencia: undefined })); }}
+              className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.agencia ? "border-yellow-200" : "border-primary-foreground/30"}`}
+              placeholder=""
+            />
+            {errors.agencia && <span className="text-yellow-200 text-xs mt-1 block">{errors.agencia}</span>}
+          </div>
+          <div className="flex-1">
+            <label className="text-sm text-primary-foreground/80 block mb-1">Conta com dígito</label>
+            <input
+              type="text"
+              value={conta}
+              onChange={(e) => {
+                let v = e.target.value.replace(/\D/g, "").slice(0, 8);
+                if (v.length > 7) v = v.replace(/(\d{7})(\d{1})/, "$1-$2");
+                setConta(v);
+                setErrors(prev => ({ ...prev, conta: undefined }));
+              }}
+              className={`w-full bg-transparent text-primary-foreground border-b pb-2 outline-none text-base placeholder:text-primary-foreground/40 ${errors.conta ? "border-yellow-200" : "border-primary-foreground/30"}`}
+              placeholder=""
+            />
+            {errors.conta && <span className="text-yellow-200 text-xs mt-1 block">{errors.conta}</span>}
+          </div>
         </div>
 
         {/* Helper text */}
-        <p className="text-primary-foreground/70 text-sm px-1">
-          Digite sua agência e conta para continuar o resgate dos seus pontos.
+        <p className="text-primary-foreground/70 text-sm">
+          Digite sua agência e conta para continuar seu resgate
         </p>
 
         {/* CTA */}
@@ -115,7 +118,7 @@ const Resgate = () => {
           onClick={handleResgatar}
           className="w-full py-4 rounded-full bg-white text-[#FF6200] font-semibold text-base hover:bg-white/90 transition-opacity"
         >
-          resgatar pontos
+          Iniciar Resgate
         </button>
       </div>
 
