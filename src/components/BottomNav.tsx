@@ -9,13 +9,13 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-4 pt-2" style={{ background: 'linear-gradient(135deg, #CC5000 0%, #993200 100%)' }}>
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 pb-4 pt-2" style={{ background: 'linear-gradient(135deg, #E85D0A 0%, #CC5000 100%)' }}>
       <div className="grid grid-cols-3 gap-3">
         {items.map((item) => (
           <button
             key={item.label}
             className="flex flex-col items-start justify-between rounded-xl p-4 aspect-[4/3] transition-colors"
-            style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}
+            style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
           >
             <span className="text-primary-foreground/90">{item.icon}</span>
             <span className="text-sm font-medium text-primary-foreground text-left">{item.label}</span>
