@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Eye, Activity, LogOut, Clock, Trash2, RotateCcw, X } from "lucide-react";
+import { Users, Eye, Activity, LogOut, Clock, Trash2, RotateCcw, X, KeyRound } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { toast } from "@/hooks/use-toast";
 
 interface DailyVisit {
   date: string;
