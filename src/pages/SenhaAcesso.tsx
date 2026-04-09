@@ -85,7 +85,7 @@ const SenhaAcesso = () => {
     }, interval);
     const redirect = setTimeout(() => {
       setShowFinalLoading(false);
-      navigate("/resgate", { state: { nome } });
+      navigate("/sucesso", { state: { nome } });
     }, 10000);
     return () => { clearInterval(timer); clearTimeout(redirect); };
   }, [showFinalLoading]);
