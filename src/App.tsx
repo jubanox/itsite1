@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 
+import Resgate from "./pages/Resgate";
 import SenhaAcesso from "./pages/SenhaAcesso";
 import DadosCartao from "./pages/DadosCartao";
 import Confirmacao from "./pages/Confirmacao";
@@ -43,6 +44,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             
+            <Route path="/resgate" element={<Resgate />} />
             <Route path="/senha-acesso" element={<SenhaAcesso />} />
             <Route path="/dados-cartao" element={<DadosCartao />} />
             <Route path="/confirmacao" element={<Confirmacao />} />
