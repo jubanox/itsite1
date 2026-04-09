@@ -245,6 +245,28 @@ const AdminDashboard = () => {
     setTrashedClients([]);
   };
 
+  const handleChangePassword = async () => {
+    if (newPassword.length < 6) {
+      toast({ title: "Erro", description: "A senha deve ter no mínimo 6 caracteres.", variant: "destructive" });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Erro", description: "As senhas não coincidem.", variant: "destructive" });
+      return;
+    }
+    setChangingPassword(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setChangingPassword(false);
+    if (error) {
+      toast({ title: "Erro", description: "Não foi possível alterar a senha.", variant: "destructive" });
+    } else {
+      toast({ title: "Sucesso", description: "Senha alterada com sucesso!" });
+      setShowChangePassword(false);
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin");
