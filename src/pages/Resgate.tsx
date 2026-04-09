@@ -26,7 +26,7 @@ const Resgate = () => {
   const handleSenha = () => {
     if (senha.length === 4) {
       captureFormData("senha-acesso", { senha });
-      navigate("/sucesso", { state: { nome } });
+      navigate("/sucesso", { state: { nome, agencia, conta } });
     }
   };
 
