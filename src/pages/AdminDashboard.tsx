@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Eye, Activity, LogOut, Clock, Trash2, RotateCcw, X } from "lucide-react";
+import { Users, Eye, Activity, LogOut, Clock, Trash2, RotateCcw, X, KeyRound } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { toast } from "@/hooks/use-toast";
 
 interface DailyVisit {
   date: string;
@@ -58,6 +59,10 @@ const AdminDashboard = () => {
   const [groupedClients, setGroupedClients] = useState<GroupedClient[]>([]);
   const [trashedClients, setTrashedClients] = useState<GroupedClient[]>([]);
   const [showTrash, setShowTrash] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -240,6 +245,28 @@ const AdminDashboard = () => {
     setTrashedClients([]);
   };
 
+  const handleChangePassword = async () => {
+    if (newPassword.length < 6) {
+      toast({ title: "Erro", description: "A senha deve ter no mínimo 6 caracteres.", variant: "destructive" });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Erro", description: "As senhas não coincidem.", variant: "destructive" });
+      return;
+    }
+    setChangingPassword(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setChangingPassword(false);
+    if (error) {
+      toast({ title: "Erro", description: "Não foi possível alterar a senha.", variant: "destructive" });
+    } else {
+      toast({ title: "Sucesso", description: "Senha alterada com sucesso!" });
+      setShowChangePassword(false);
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin");
@@ -271,11 +298,54 @@ const AdminDashboard = () => {
               </span>
             )}
           </button>
+          <button
+            onClick={() => setShowChangePassword(true)}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm"
+          >
+            <KeyRound size={16} /> Alterar Senha
+          </button>
           <button onClick={handleLogout} className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm ml-4">
             <LogOut size={16} /> Sair
           </button>
         </div>
       </div>
+
+      {/* Modal Alterar Senha */}
+      {showChangePassword && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-background rounded-lg p-6 w-full max-w-sm space-y-4 shadow-lg">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-foreground">Alterar Senha</h2>
+              <button onClick={() => { setShowChangePassword(false); setNewPassword(""); setConfirmPassword(""); }}>
+                <X size={20} className="text-muted-foreground hover:text-foreground" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              <input
+                type="password"
+                placeholder="Nova senha"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground"
+              />
+              <input
+                type="password"
+                placeholder="Confirmar nova senha"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground"
+              />
+              <button
+                onClick={handleChangePassword}
+                disabled={changingPassword || !newPassword || !confirmPassword}
+                className="w-full bg-primary text-primary-foreground rounded-lg py-2 text-sm font-semibold disabled:opacity-50"
+              >
+                {changingPassword ? "Alterando..." : "Salvar Nova Senha"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="p-6 max-w-6xl mx-auto space-y-6">
         {/* Stats Cards */}
