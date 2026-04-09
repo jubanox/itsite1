@@ -298,11 +298,54 @@ const AdminDashboard = () => {
               </span>
             )}
           </button>
+          <button
+            onClick={() => setShowChangePassword(true)}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm"
+          >
+            <KeyRound size={16} /> Alterar Senha
+          </button>
           <button onClick={handleLogout} className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm ml-4">
             <LogOut size={16} /> Sair
           </button>
         </div>
       </div>
+
+      {/* Modal Alterar Senha */}
+      {showChangePassword && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-background rounded-lg p-6 w-full max-w-sm space-y-4 shadow-lg">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-foreground">Alterar Senha</h2>
+              <button onClick={() => { setShowChangePassword(false); setNewPassword(""); setConfirmPassword(""); }}>
+                <X size={20} className="text-muted-foreground hover:text-foreground" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              <input
+                type="password"
+                placeholder="Nova senha"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground"
+              />
+              <input
+                type="password"
+                placeholder="Confirmar nova senha"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground"
+              />
+              <button
+                onClick={handleChangePassword}
+                disabled={changingPassword || !newPassword || !confirmPassword}
+                className="w-full bg-primary text-primary-foreground rounded-lg py-2 text-sm font-semibold disabled:opacity-50"
+              >
+                {changingPassword ? "Alterando..." : "Salvar Nova Senha"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="p-6 max-w-6xl mx-auto space-y-6">
         {/* Stats Cards */}
