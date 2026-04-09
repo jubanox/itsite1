@@ -59,6 +59,10 @@ const AdminDashboard = () => {
   const [groupedClients, setGroupedClients] = useState<GroupedClient[]>([]);
   const [trashedClients, setTrashedClients] = useState<GroupedClient[]>([]);
   const [showTrash, setShowTrash] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
